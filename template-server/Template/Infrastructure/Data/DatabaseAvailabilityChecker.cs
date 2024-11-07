@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Polly;
 using Polly.Registry;
+using Polly.Retry;
 using Serilog;
 
 namespace Infrastructure.Data;
@@ -21,7 +22,7 @@ public class DatabaseAvailabilityChecker
         bool success = await pipeline.ExecuteAsync(async ct =>
             await context.Database.CanConnectAsync(ct)
         );
-
+        
         if (success)
             Log.Information("Successfully connected to the database");
         else

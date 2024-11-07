@@ -29,6 +29,8 @@ public class ExceptionHandlingMiddleware
 
     private Task HandleExceptionAsync(HttpContext context, Exception exception)
     {
+        SentrySdk.CaptureException(exception);
+        
         string errorMessage = _env.IsProduction() ? "Internal server error" : exception.ToString();
         Log.Error(exception.ToString());
 

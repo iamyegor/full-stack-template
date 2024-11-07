@@ -9,9 +9,8 @@ export default function usePagedTodos() {
         queryKey: ["todos-paged"],
         queryFn: ({ pageParam }) => fetchPagedTodos({ pageParam }),
         initialPageParam: 1,
-        getNextPageParam: (lastPage) => {
-            return lastPage.nextPage;
-        },
+        retry: 1,
+        getNextPageParam: (lastPage) => lastPage.nextPage,
     });
 
     const todos = data?.pages.flatMap((page) => page.todos) ?? [];

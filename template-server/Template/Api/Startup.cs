@@ -12,6 +12,7 @@ public static class Startup
 
     public static WebApplication ConfigureServices(this WebApplicationBuilder builder)
     {
+        builder.WebHost.UseSentry();
         builder.Host.AddSerilog();
 
         builder

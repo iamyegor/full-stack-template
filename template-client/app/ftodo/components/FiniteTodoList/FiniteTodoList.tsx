@@ -11,7 +11,6 @@ export default function FiniteTodoList() {
     const { data, isLoading, isError } = useQuery({
         queryKey: ["todos"],
         queryFn: fetchTodos,
-        gcTime: 1000,
     });
     const markTodoCompleted = useMarkTodoCompleted();
 

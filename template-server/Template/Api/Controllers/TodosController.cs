@@ -21,6 +21,7 @@ public class TodosController : ApplicationController
     [HttpGet("paged/{page}")]
     public async Task<ActionResult<PagedTodosDto>> GetPagedTodos(int page = 1)
     {
+        throw new Exception("Fake exception");
         PagedTodosDto todos = await _mediator.Send(new GetPagedTodosQuery(page));
 
         return Ok(todos);

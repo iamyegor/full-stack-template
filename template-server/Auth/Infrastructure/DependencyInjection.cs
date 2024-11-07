@@ -6,6 +6,7 @@ using Infrastructure.Cookies;
 using Infrastructure.Data;
 using Infrastructure.Data.Dapper;
 using Infrastructure.Emails;
+using Infrastructure.Extensions;
 using Infrastructure.Utils;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,6 +31,7 @@ public static class DependencyInjection
             .AddScoped(_ => new ApplicationContext(connectionString, isDevelopment))
             .AddUtils()
             .AddEmails(config)
+            .AddResilience()
             .AddMassTransit(config);
 
         services.AddAuth(config).AddTransient<TokensGenerator>();
