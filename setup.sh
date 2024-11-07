@@ -97,6 +97,7 @@ replace_in_file "$auth_di" "Template (Auth) Error" "${pascal_name} (Auth) Error"
 mv "${kebab_name}-server/migrators/template" "${kebab_name}-server/migrators/${kebab_name}"
 
 # Update CI/CD configuration
+mv .github/_workflows ".github/workflows"
 cicd_file=".github/workflows/ci-cd.yaml"
 echo "Updating ${cicd_file}..."
 replace_in_file "$cicd_file" "FILL_ME_IN-k8s" "${kebab_name}-k8s"
