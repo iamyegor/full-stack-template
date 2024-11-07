@@ -1,0 +1,162 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+env:
+  DOCKER_USERNAME: jasonstathamdev
+  VM_IP: FILL_ME_IN #192.121.1.10
+  HELM_COMMAND: helm upgrade FILL_ME_IN FILL_ME_IN-k8s --values FILL_ME_IN-k8s/values.yaml #netiq
+  DOCKER_REPO: FILL_ME_IN #netiq
+  CLIENT_DIR: FILL_ME_IN # ./netiq-client
+  SERVER_DIR: FILL_ME_IN # ./netiq-server
+
+  AUTH_MIGRATIONS_DIR: FILL_ME_IN # netiq-server/Auth/app/Infrastructure/Data/Migrations/*
+  AUTH_MIGRATOR_MIGRATIONS_DIR: FILL_ME_IN # netiq-server/migrations/auth/Migrator/Migrations
+  AUTH_MIGRATION_CHANGER: FILL_ME_IN # netiq-server/migrations/auth/MigrationChanger
+  AUTH_APP_DIR: FILL_ME_IN # netiq-server/Auth
+  AUTH_MIGRATOR_DIR: FILL_ME_IN # netiq-server/migrations/auth
+
+  SERVER_MIGRATIONS_DIR: FILL_ME_IN #netiq-server/Netiq/app/Infrastructure/Data/Migrations/*
+  SERVER_MIGRATOR_MIGRATIONS_DIR: FILL_ME_IN #netiq-server/migrations/netiq/Migrator/Migrations
+  SERVER_MIGRATION_CHANGER: FILL_ME_IN #netiq-server/migrations/netiq/MigrationChanger
+  SERVER_APP_DIR: FILL_ME_IN #netiq-server/Netiq
+  SERVER_MIGRATOR_DIR: FILL_ME_IN #netiq-server/migrations/netiq
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+  build-client:
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ env.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push client
+        uses: docker/build-push-action@v2
+        with:
+          context: ${{ env.CLIENT_DIR }}
+          push: true
+          tags: ${{ env.DOCKER_USERNAME }}/${{ env.DOCKER_REPO }}:client
+
+  build-auth:
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ env.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Set up .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: "8.0.x"
+
+      - name: Prepare Auth migrations
+        run: |
+          mkdir -p ${{ env.AUTH_MIGRATOR_MIGRATIONS_DIR }}
+          cp -r ${{ env.AUTH_MIGRATIONS_DIR }} ${{ env.AUTH_MIGRATOR_MIGRATIONS_DIR }}
+
+      - name: Run MigrationChanger for Auth
+        run: |
+          dotnet build ${{ env.AUTH_MIGRATION_CHANGER }}
+          dotnet run --project ${{ env.AUTH_MIGRATION_CHANGER }}
+
+      - name: Build and push Auth app
+        uses: docker/build-push-action@v2
+        with:
+          context: ${{ env.SERVER_DIR }}
+          file: ${{ env.AUTH_APP_DIR }}/Dockerfile
+          push: true
+          tags: ${{ env.DOCKER_USERNAME }}/${{ env.DOCKER_REPO }}:auth-app
+
+      - name: Build and push Auth migrator
+        uses: docker/build-push-action@v2
+        with:
+          context: ${{ env.AUTH_MIGRATOR_DIR }}
+          push: true
+          tags: ${{ env.DOCKER_USERNAME }}/${{ env.DOCKER_REPO }}:auth-migrator
+
+  build-server:
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ env.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Set up .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: "8.0.x"
+
+      - name: Prepare Server migrations
+        run: |
+          mkdir -p ${{ env.SERVER_MIGRATOR_MIGRATIONS_DIR }}
+          cp -r ${{ env.SERVER_MIGRATIONS_DIR }} ${{ env.SERVER_MIGRATOR_MIGRATIONS_DIR }}
+
+      - name: Run MigrationChanger for Server
+        run: |
+          dotnet build ${{ env.SERVER_MIGRATION_CHANGER }}
+          dotnet run --project ${{ env.SERVER_MIGRATION_CHANGER }}
+
+      - name: Build and push Server app
+        uses: docker/build-push-action@v2
+        with:
+          context: ${{ env.SERVER_DIR }}
+          file: ${{ env.SERVER_APP_DIR }}/Dockerfile
+          push: true
+          tags: ${{ env.DOCKER_USERNAME }}/${{ env.DOCKER_REPO }}:netiq-app
+
+      - name: Build and push Server migrator
+        uses: docker/build-push-action@v2
+        with:
+          context: ${{ env.SERVER_MIGRATOR_DIR }}
+          push: true
+          tags: ${{ env.DOCKER_USERNAME }}/${{ env.DOCKER_REPO }}:netiq-migrator
+
+  deploy:
+    needs: [build-client, build-auth, build-server]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to server
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ env.VM_IP }} >> ~/.ssh/known_hosts
+          ssh root@${{ env.VM_IP }} "${{ env.HELM_COMMAND }}"
