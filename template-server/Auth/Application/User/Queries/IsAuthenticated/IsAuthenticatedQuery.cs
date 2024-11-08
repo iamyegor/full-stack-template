@@ -1,5 +1,5 @@
 using Domain.DomainErrors;
-using Domain.User.ValueObjects;
+using Domain.Users.ValueObjects;
 using Infrastructure.Data;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -24,7 +24,7 @@ public class IsAuthenticatedQueryHandler
         CancellationToken cancellationToken
     )
     {
-        Domain.User.User? user = await _context.Users.SingleOrDefaultAsync(
+        Domain.Users.User? user = await _context.Users.SingleOrDefaultAsync(
             x => x.Id == query.UserId,
             cancellationToken
         );

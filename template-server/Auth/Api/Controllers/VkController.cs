@@ -1,9 +1,8 @@
 ﻿using Api.Controllers.Common;
 using Api.Dtos;
-using Application.User.Commands.SignInWithVk;
+using Application.SignIn.Commands.SignInWithVk;
 using Domain.DomainErrors;
-using Infrastructure.Auth.VkAuth;
-using Infrastructure.Cookies.Extensions;
+using Infrastructure.Features.Auth;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Extensions;
@@ -29,7 +28,7 @@ public class VkController : ApplicationController
         Request.Cookies.TryGetValue(CookiesSettings.DeviceId.Name, out string? deviceId);
         SignInWithVkCommand command = new SignInWithVkCommand(dto.Code, dto.VkDeviceId, deviceId);
 
-        Result<VkAuthResult, Error> result = await _mediator.Send(command);
+        Result<SignInWithVkResult, Error> result = await _mediator.Send(command);
 
         if (result.IsFailure)
         {

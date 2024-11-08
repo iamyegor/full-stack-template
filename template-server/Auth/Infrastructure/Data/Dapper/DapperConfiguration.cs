@@ -1,6 +1,5 @@
 using System.Reflection;
 using Dapper;
-using Infrastructure.Extensions;
 
 namespace Infrastructure.Data.Dapper;
 

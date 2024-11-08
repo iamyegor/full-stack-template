@@ -1,6 +1,6 @@
-import authApi from "@/src/lib/api/authApi";
-import ServerErrorResponse from "@/src/types/errors/ServerErrorResponse";
-import EmptyResult from "@/src/types/results/EmptyResult";
+import authApi from "@/lib/api/authApi";
+import ServerErrorResponse from "@/types/errors/ServerErrorResponse";
+import EmptyResult from "@/types/results/EmptyResult";
 import { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 
 interface CustomAxiosRequestConfig extends AxiosRequestConfig {

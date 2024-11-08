@@ -8,6 +8,7 @@
 
     <ItemGroup>
         <PackageReference Include="Dapper" Version="2.1.35"/>
+        <PackageReference Include="Google.Apis.Auth" Version="1.68.0" />
         <PackageReference Include="MailKit" Version="4.7.1.1" />
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.7"/>
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.7">
@@ -48,5 +49,9 @@
         <None Update="Emails\ui\confirm-email.html">
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Features\" />
     </ItemGroup>
 </Project>

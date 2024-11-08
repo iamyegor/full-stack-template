@@ -14,7 +14,16 @@ const nextConfig = {
     images: {
         domains: ["localhost"],
     },
-
+    experimental: {
+        turbo: {
+            rules: {
+                "*.svg": {
+                    loaders: ["@svgr/webpack"],
+                    as: "*.js",
+                },
+            },
+        },
+    },
     webpack: svgsConfig,
 };
 

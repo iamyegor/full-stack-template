@@ -23,4 +23,10 @@
         </Reference>
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Email\Commands\" />
+      <Folder Include="Tokens\" />
+      <Folder Include="Password\Commands\" />
+    </ItemGroup>
+
 </Project>

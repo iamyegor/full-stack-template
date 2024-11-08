@@ -1,4 +1,4 @@
-import interceptor from "@/src/lib/api/interceptor";
+import interceptor from "@/lib/api/interceptor";
 import axios, { AxiosResponse } from "axios";
 
 const api = axios.create({

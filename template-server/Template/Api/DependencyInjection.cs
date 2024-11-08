@@ -1,12 +1,7 @@
-using System.Net;
 using Api.Mappings;
-using MailKit.Security;
 using Serilog;
 using Serilog.Debugging;
 using Serilog.Events;
-using Serilog.Formatting.Display;
-using Serilog.Sinks.Email;
-using SharedKernel.Utils;
 
 namespace Api;
 
@@ -46,43 +41,13 @@ public static class DependencyInjection
 
     public static void AddSerilog(this ConfigureHostBuilder host)
     {
-        LoggerConfiguration loggerConfiguration = new LoggerConfiguration();
-        loggerConfiguration
+        Log.Logger = new LoggerConfiguration()
             .MinimumLevel.Information()
             .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
             .Enrich.FromLogContext()
             .WriteTo.Console()
-            .WriteTo.File(path: "/logs/log-.log", rollingInterval: RollingInterval.Day);
-
-        if (AppEnv.IsProduction)
-        {
-            string errorLogginPassword = Environment.GetEnvironmentVariable(
-                "SERILOG_EMAIL_PASSWORD"
-            )!;
-            string subject = "Template Error";
-
-            loggerConfiguration.WriteTo.Email(
-                options: new EmailSinkOptions
-                {
-                    From = "app.errors.log@gmail.com",
-                    To = ["astery227@gmail.com", "yyegor@outlook.com"],
-                    Host = "smtp.gmail.com",
-                    Port = 587,
-                    ConnectionSecurity = SecureSocketOptions.StartTls,
-                    Credentials = new NetworkCredential(
-                        "app.errors.log@gmail.com",
-                        errorLogginPassword
-                    ),
-                    Subject = new MessageTemplateTextFormatter(subject),
-                    Body = new MessageTemplateTextFormatter(
-                        "{Timestamp} [{Level}] {Message}{NewLine}{Exception}"
-                    )
-                },
-                restrictedToMinimumLevel: LogEventLevel.Error
-            );
-        }
-
-        Log.Logger = loggerConfiguration.CreateLogger();
+            .WriteTo.File(path: "/logs/log-.log", rollingInterval: RollingInterval.Day)
+            .CreateLogger();
 
         SelfLog.Enable(Console.Out);
         host.UseSerilog();

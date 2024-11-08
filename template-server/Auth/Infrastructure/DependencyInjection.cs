@@ -1,16 +1,8 @@
-using System.Net;
-using System.Net.Mail;
-using Infrastructure.Auth.Authentication;
-using Infrastructure.Auth.VkAuth;
-using Infrastructure.Cookies;
 using Infrastructure.Data;
-using Infrastructure.Data.Dapper;
-using Infrastructure.Emails;
-using Infrastructure.Extensions;
-using Infrastructure.Utils;
+using Infrastructure.Data.Helpers;
+using Infrastructure.DIExtensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 using SharedKernel.Auth;
 using SharedKernel.Communication.Extensions;
 
@@ -32,46 +24,9 @@ public static class DependencyInjection
             .AddUtils()
             .AddEmails(config)
             .AddResilience()
-            .AddMassTransit(config);
-
-        services.AddAuth(config).AddTransient<TokensGenerator>();
-
-        return services;
-    }
-
-    private static IServiceCollection AddUtils(this IServiceCollection services)
-    {
-        services
-            .AddTransient<UserIdExtractor>()
-            .AddTransient<VkAuthTokenManager>()
-            .AddTransient<UserRemover>()
-            .AddTransient<DapperConnectionFactory>()
-            .AddTransient<HttpClient>()
-            .AddTransient<ConnectionStringResolver>();
-
-        return services;
-    }
-
-    private static IServiceCollection AddEmails(
-        this IServiceCollection services,
-        IConfiguration config
-    )
-    {
-        services.Configure<EmailSettings>(config.GetSection(nameof(EmailSettings)));
-        services.AddTransient<DomainEmailSender>();
-        services.AddTransient<EmailSender>();
-        services.AddTransient(serviceProvider =>
-        {
-            EmailSettings emailSettings = serviceProvider
-                .GetRequiredService<IOptions<EmailSettings>>()
-                .Value;
-
-            return new SmtpClient(emailSettings.MailServer, emailSettings.MailPort)
-            {
-                Credentials = new NetworkCredential(emailSettings.Username, emailSettings.Password),
-                EnableSsl = true
-            };
-        });
+            .AddMassTransit(config)
+            .AddAuth(config)
+            .AddAuthUtils(config);
 
         return services;
     }

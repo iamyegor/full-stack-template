@@ -1,4 +1,4 @@
-using Api.Utils;
+using Api.Middlewares;
 using Application;
 using DotNetEnv;
 using Infrastructure;

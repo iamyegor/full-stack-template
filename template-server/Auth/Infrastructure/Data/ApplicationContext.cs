@@ -1,6 +1,6 @@
 using System.Reflection;
-using Domain.User;
-using Infrastructure.Specifications;
+using Domain.Users;
+using Infrastructure.Data.Helpers.Specifications;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Serilog;

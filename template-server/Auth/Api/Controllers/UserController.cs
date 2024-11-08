@@ -1,10 +1,10 @@
 using Api.Controllers.Common;
 using Api.Dtos;
-using Application.User.Commands.AddEmailCommand;
+using Application.Email.Commands.AddEmailCommand;
 using Application.User.Queries.IsAuthenticated;
 using Domain.DomainErrors;
-using Domain.User.ValueObjects;
-using Infrastructure.Cookies;
+using Domain.Users.ValueObjects;
+using Infrastructure.Features.Auth;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

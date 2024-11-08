@@ -1,0 +1,97 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    font-size: 16px;
+    font-family: "DM Sans", sans-serif;
+}
+
+@layer utilities {
+    .text-balance {
+        text-wrap: balance;
+    }
+}
+
+:root {
+    .glow-effect {
+        background: radial-gradient(circle, rgba(var(--glow)) 0%, rgba(var(--glow)) 70%);
+    }
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.light {
+    --bg: 241, 241, 241;
+    --conversion-box: 215, 215, 215, 0.25;
+    --txt-default: 17, 17, 17;
+    --txt-faded: 17, 17, 17, 0.5;
+    --primary: 24, 119, 242;
+    --exchange: 159, 159, 159;
+    --border: 205, 205, 205;
+    --glow: 0, 85, 255, 0.08;
+    --input-border: 180, 180, 180;
+    --popover: 255, 255, 255, 0.65;
+    --command-selected: 255, 255, 255;
+    --mesh-opacity: 0.15;
+}
+
+.dark {
+    --bg: 17, 17, 17;
+    --conversion-box: 12, 12, 12, 0.53;
+    --txt-default: 255, 255, 255;
+    --txt-faded: 255, 255, 255, 0.5;
+    --primary: 24, 119, 242;
+    --exchange: 203, 203, 203;
+    --border: 34, 34, 34;
+    --glow: 27, 27, 27;
+    --input-border: 51, 51, 51;
+    --popover: 15, 15, 15, 0.8;
+    --command-selected: 35, 35, 35;
+    --mesh-opacity: 0.02;
+}
+
+@layer base {
+    :root {
+        --radius: 0.5rem;
+    }
+
+    .my-scrollbar {
+        scrollbar-width: thin;
+        scrollbar-color: rgb(163 163 163) transparent;
+    }
+
+    .my-scrollbar::-webkit-scrollbar {
+        width: 50px;
+        height: 8px;
+    }
+
+    .my-scrollbar::-webkit-scrollbar-track {
+        background: transparent;
+        border-radius: 8px;
+    }
+
+    .my-scrollbar::-webkit-scrollbar-thumb {
+        background-color: hsl(215.4 16.3% 46.9%);
+        border-radius: 8px;
+        border: 2px solid transparent;
+        background-clip: content-box;
+    }
+
+    .my-scrollbar::-webkit-scrollbar-thumb:hover {
+        background-color: rgb(184, 184, 184);
+    }
+}
