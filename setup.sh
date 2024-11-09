@@ -93,30 +93,17 @@ auth_di="${kebab_name}-server/Auth/Api/DependencyInjection.cs"
 echo "Updating ${auth_di}..."
 replace_in_file "$auth_di" "Template (Auth) Error" "${pascal_name} (Auth) Error"
 
+# Update Dockerfile COPY commands
+dockerfile="${kebab_name}-server/${pascal_name}/Dockerfile"
+echo "Updating ${dockerfile}..."
+replace_in_file "$dockerfile" 'COPY \["Template/app/Api/Api.csproj"' "COPY [\"${pascal_name}/app/Api/Api.csproj\""
+replace_in_file "$dockerfile" 'COPY \["Template/app/Application/Application.csproj"' "COPY [\"${pascal_name}/app/Application/Application.csproj\""
+replace_in_file "$dockerfile" 'COPY \["Template/app/Domain/Domain.csproj"' "COPY [\"${pascal_name}/app/Domain/Domain.csproj\""
+replace_in_file "$dockerfile" 'COPY \["Template/app/Infrastructure/Infrastructure.csproj"' "COPY [\"${pascal_name}/app/Infrastructure/Infrastructure.csproj\""
+replace_in_file "$dockerfile" 'COPY Template/app/' "COPY ${pascal_name}/app/"
+
 # Rename migrators template folder
 mv "${kebab_name}-server/migrators/template" "${kebab_name}-server/migrators/${kebab_name}"
-
-# Update CI/CD configuration
-# mv .github/_workflows ".github/workflows"
-# cicd_file=".github/workflows/ci-cd.yaml"
-# echo "Updating ${cicd_file}..."
-# replace_in_file "$cicd_file" "FILL_ME_IN-k8s" "${kebab_name}-k8s"
-# replace_in_file "$cicd_file" "DOCKER_REPO: FILL_ME_IN" "DOCKER_REPO: ${kebab_name}"
-# replace_in_file "$cicd_file" "CLIENT_DIR: FILL_ME_IN" "CLIENT_DIR: ./${kebab_name}-client"
-# replace_in_file "$cicd_file" "SERVER_DIR: FILL_ME_IN" "SERVER_DIR: ./${kebab_name}-server"
-
-# # Update migration paths
-# replace_in_file "$cicd_file" "AUTH_MIGRATIONS_DIR: FILL_ME_IN" "AUTH_MIGRATIONS_DIR: ${kebab_name}-server/Auth/app/Infrastructure/Data/Migrations/*"
-# replace_in_file "$cicd_file" "AUTH_MIGRATOR_MIGRATIONS_DIR: FILL_ME_IN" "AUTH_MIGRATOR_MIGRATIONS_DIR: ${kebab_name}-server/migrations/auth/Migrator/Migrations"
-# replace_in_file "$cicd_file" "AUTH_MIGRATION_CHANGER: FILL_ME_IN" "AUTH_MIGRATION_CHANGER: ${kebab_name}-server/migrations/auth/MigrationChanger"
-# replace_in_file "$cicd_file" "AUTH_APP_DIR: FILL_ME_IN" "AUTH_APP_DIR: ${kebab_name}-server/Auth"
-# replace_in_file "$cicd_file" "AUTH_MIGRATOR_DIR: FILL_ME_IN" "AUTH_MIGRATOR_DIR: ${kebab_name}-server/migrations/auth"
-
-# replace_in_file "$cicd_file" "SERVER_MIGRATIONS_DIR: FILL_ME_IN" "SERVER_MIGRATIONS_DIR: ${kebab_name}-server/${pascal_name}/app/Infrastructure/Data/Migrations/*"
-# replace_in_file "$cicd_file" "SERVER_MIGRATOR_MIGRATIONS_DIR: FILL_ME_IN" "SERVER_MIGRATOR_MIGRATIONS_DIR: ${kebab_name}-server/migrations/${kebab_name}/Migrator/Migrations"
-# replace_in_file "$cicd_file" "SERVER_MIGRATION_CHANGER: FILL_ME_IN" "SERVER_MIGRATION_CHANGER: ${kebab_name}-server/migrations/${kebab_name}/MigrationChanger"
-# replace_in_file "$cicd_file" "SERVER_APP_DIR: FILL_ME_IN" "SERVER_APP_DIR: ${kebab_name}-server/${pascal_name}"
-# replace_in_file "$cicd_file" "SERVER_MIGRATOR_DIR: FILL_ME_IN" "SERVER_MIGRATOR_DIR: ${kebab_name}-server/migrations/${kebab_name}"
 
 # Final message
 echo "Project setup complete!"
