@@ -96,11 +96,11 @@ replace_in_file "$auth_di" "Template (Auth) Error" "${pascal_name} (Auth) Error"
 # Update Dockerfile COPY commands
 dockerfile="${kebab_name}-server/${pascal_name}/Dockerfile"
 echo "Updating ${dockerfile}..."
-replace_in_file "$dockerfile" 'COPY \["Template/app/Api/Api.csproj"' "COPY [\"${pascal_name}/app/Api/Api.csproj\""
-replace_in_file "$dockerfile" 'COPY \["Template/app/Application/Application.csproj"' "COPY [\"${pascal_name}/app/Application/Application.csproj\""
-replace_in_file "$dockerfile" 'COPY \["Template/app/Domain/Domain.csproj"' "COPY [\"${pascal_name}/app/Domain/Domain.csproj\""
-replace_in_file "$dockerfile" 'COPY \["Template/app/Infrastructure/Infrastructure.csproj"' "COPY [\"${pascal_name}/app/Infrastructure/Infrastructure.csproj\""
-replace_in_file "$dockerfile" 'COPY Template/app/' "COPY ${pascal_name}/app/"
+replace_in_file "$dockerfile" 'COPY \["Template/Api/Api.csproj"' "COPY [\"${pascal_name}/Api/Api.csproj\""
+replace_in_file "$dockerfile" 'COPY \["Template/Application/Application.csproj"' "COPY [\"${pascal_name}/Application/Application.csproj\""
+replace_in_file "$dockerfile" 'COPY \["Template/Domain/Domain.csproj"' "COPY [\"${pascal_name}/Domain/Domain.csproj\""
+replace_in_file "$dockerfile" 'COPY \["Template/Infrastructure/Infrastructure.csproj"' "COPY [\"${pascal_name}/Infrastructure/Infrastructure.csproj\""
+replace_in_file "$dockerfile" 'COPY Template/' "COPY ${pascal_name}/"
 
 # Rename migrators template folder
 mv "${kebab_name}-server/migrators/template" "${kebab_name}-server/migrators/${kebab_name}"
