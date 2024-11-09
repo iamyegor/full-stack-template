@@ -2,10 +2,10 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-COPY ["Template/app/Api/Api.csproj", "Api/"]
-COPY ["Template/app/Application/Application.csproj", "Application/"]
-COPY ["Template/app/Domain/Domain.csproj", "Domain/"]
-COPY ["Template/app/Infrastructure/Infrastructure.csproj", "Infrastructure/"]
+COPY ["Template/Api/Api.csproj", "Api/"]
+COPY ["Template/Application/Application.csproj", "Application/"]
+COPY ["Template/Domain/Domain.csproj", "Domain/"]
+COPY ["Template/Infrastructure/Infrastructure.csproj", "Infrastructure/"]
 COPY ["SharedKernel/SharedKernel.csproj", "SharedKernel/"]
 RUN dotnet restore Api/Api.csproj -v d
 
