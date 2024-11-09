@@ -9,7 +9,7 @@ COPY ["Template/Infrastructure/Infrastructure.csproj", "Infrastructure/"]
 COPY ["SharedKernel/SharedKernel.csproj", "SharedKernel/"]
 RUN dotnet restore Api/Api.csproj -v d
 
-COPY Template/app/ .
+COPY Template/ .
 COPY SharedKernel/ SharedKernel/
 
 WORKDIR /src/Api
