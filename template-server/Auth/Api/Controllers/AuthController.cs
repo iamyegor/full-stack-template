@@ -7,6 +7,7 @@ using Infrastructure.Features.Auth;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using SharedKernel.Auth;
 using XResults;
 
@@ -23,7 +24,7 @@ public class AuthController : ApplicationController
         _mediator = mediator;
     }
 
-    [HttpPost("sign-up")]
+    [HttpPost("sign-up"), EnableRateLimiting("auth")]
     public async Task<IActionResult> SignUp(SignupDto dto)
     {
         Request.Cookies.TryGetValue(CookiesSettings.DeviceId.Name, out string? deviceId);
@@ -40,7 +41,7 @@ public class AuthController : ApplicationController
         return Ok();
     }
 
-    [HttpPost("sign-in")]
+    [HttpPost("sign-in"), EnableRateLimiting("auth")]
     public async Task<IActionResult> Signin(SigninDto dto)
     {
         Request.Cookies.TryGetValue(CookiesSettings.DeviceId.Name, out string? deviceId);
@@ -60,8 +61,14 @@ public class AuthController : ApplicationController
     [HttpPost("log-out"), Authorize]
     public IActionResult LogOut()
     {
-        Response.Cookies.Delete(CookiesSettings.AccessToken.Name, CookiesSettings.AccessToken.Options);
-        Response.Cookies.Delete(CookiesSettings.RefreshToken.Name, CookiesSettings.RefreshToken.Options);
+        Response.Cookies.Delete(
+            CookiesSettings.AccessToken.Name,
+            CookiesSettings.AccessToken.Options
+        );
+        Response.Cookies.Delete(
+            CookiesSettings.RefreshToken.Name,
+            CookiesSettings.RefreshToken.Options
+        );
 
         return Ok();
     }

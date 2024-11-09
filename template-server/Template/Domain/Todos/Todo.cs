@@ -31,5 +31,5 @@ public class Todo : Entity<Guid>
         return new Todo(id, title.Trim(), completed);
     }
 
-    public void MarkCompleted(Guid id) => Completed = true;
+    public void ChangeCompletionStatus(bool completed) => Completed = completed;
 }

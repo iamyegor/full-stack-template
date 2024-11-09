@@ -43,8 +43,7 @@ public class TokensGenerator
         JwtSecurityToken jwt = new JwtSecurityToken(
             _jwtSettings.Issuer,
             _jwtSettings.Audience,
-            expires: DateTime.UtcNow.AddMinutes(2),
-
+            expires: DateTime.UtcNow.AddMinutes(10),
             claims: claims,
             signingCredentials: signingCredentials
         );

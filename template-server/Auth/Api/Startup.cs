@@ -1,3 +1,4 @@
+using Api.DiExtensions;
 using Api.Middlewares;
 using Application;
 using DotNetEnv;
@@ -11,10 +12,11 @@ public static class Startup
 
     public static WebApplication ConfigureServices(this WebApplicationBuilder builder)
     {
+        builder.WebHost.UseSentry();
         builder.Host.AddSerilog();
 
         builder
-            .Services.AddBaseServices(CorsPolicy)
+            .Services.AddApiServices(CorsPolicy)
             .AddInfrastructureServices(builder.Configuration, builder.Environment.IsDevelopment())
             .AddApplicationValidation();
 
@@ -34,6 +36,8 @@ public static class Startup
 
         app.UseAuthentication();
         app.UseAuthorization();
+
+        app.UseRateLimiter();
 
         app.MapControllers();
 

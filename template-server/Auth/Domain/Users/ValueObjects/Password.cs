@@ -19,20 +19,14 @@ public class Password : ValueObject
     public static Result<Password, Error> Create(string input)
     {
         if (string.IsNullOrWhiteSpace(input))
-        {
             return Errors.Password.IsRequired;
-        }
 
         string password = input.Trim();
         if (password.Length < 6 || password.Length > 50)
-        {
             return Errors.Password.HasInvalidLength;
-        }
 
         if (!Regex.IsMatch(password, "^(?=.*[a-z])(?=.*[A-Z])(?=.*[\\d\\W]).*$"))
-        {
             return Errors.Password.HasInvalidSignature;
-        }
 
         string hashedPassword = Convert.ToHexString(
             SHA512.Create().ComputeHash(Encoding.UTF8.GetBytes(password))

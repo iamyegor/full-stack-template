@@ -43,6 +43,14 @@ export default function SignInForm() {
             await authApi.post("auth/sign-in", data);
         } catch (error) {
             const axiosError = error as AxiosError<ServerErrorResponse>;
+
+            if (axiosError.response?.status === 429) {
+                setSubmitError(
+                    "You reached the maximum number of login attempts. Wait for 10 minutes before trying again."
+                );
+                return;
+            }
+
             if (axiosError.response?.data.errorCode) {
                 if (axiosError.response.data.errorCode === "invalid.credentials") {
                     setSubmitError("The credentials you entered are incorrect.");
@@ -124,8 +132,7 @@ export default function SignInForm() {
             </button>
 
             {submitError && (
-                <div className="text-sm w-full flex justify-center items-center ml-2 space-x-2 text-red-500 text-center">
-                    <CircleX className="h-4 w-4" />
+                <div className="text-sm w-full flex justify-center  ml-2 space-x-2 text-red-500 text-center">
                     <p>{submitError}</p>
                 </div>
             )}

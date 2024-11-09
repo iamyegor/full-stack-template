@@ -2,6 +2,7 @@
 using MassTransit;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SharedKernel.Utils;
 
 namespace SharedKernel.Communication.Extensions;
 
@@ -25,11 +26,18 @@ public static class MassTransitServicesExtensions
             busConfigurator.UsingRabbitMq(
                 (context, configurator) =>
                 {
+                    string host = config["RabbitMq:Host"]!;
                     string username = config["RabbitMq:Username"]!;
                     string password = config["RabbitMq:Password"]!;
+                    if (AppEnv.IsProduction)
+                    {
+                        host = Environment.GetEnvironmentVariable("RABBITMQ_HOST")!;
+                        username = Environment.GetEnvironmentVariable("RABBITMQ_USER")!;
+                        password = Environment.GetEnvironmentVariable("RABBITMQ_PASSWORD")!;
+                    }
 
                     configurator.Host(
-                        new Uri(config["RabbitMq:Host"]!),
+                        new Uri(host),
                         hostConfigurator =>
                         {
                             hostConfigurator.Username(username);

@@ -2,13 +2,13 @@
 
 import { Button } from "@/components/ui/button";
 import usePagedTodos from "@/features/todos/hooks/useFetchTodosInfinitely";
-import useMarkPagedTodoCompleted from "@/features/todos/hooks/useMarkPagedTodoCompleted";
+import usePagedTodoChangeCompletion from "@/features/todos/hooks/usePagedTodoChangeCompletion";
 import { ArrowLeft, CheckCircle, Clock, Loader2 } from "lucide-react";
 import Link from "next/link";
 
 export default function InfiniteTodoListPage() {
     const { todos, todosEndRef, hasNextPage, isLoading, isError } = usePagedTodos();
-    const markTodoCompleted = useMarkPagedTodoCompleted();
+    const changeCompletionStatus = usePagedTodoChangeCompletion();
 
     if (isLoading)
         return (
@@ -46,7 +46,12 @@ export default function InfiniteTodoListPage() {
                                 {todo.title}
                             </p>
                             <Button
-                                onClick={() => markTodoCompleted(todo.id)}
+                                onClick={() =>
+                                    changeCompletionStatus({
+                                        todoId: todo.id,
+                                        completed: !todo.completed,
+                                    })
+                                }
                                 size="icon"
                                 variant={todo.completed ? "ghost" : "outline"}
                                 className={`rounded-full ${

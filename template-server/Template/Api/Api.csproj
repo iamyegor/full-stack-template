@@ -16,11 +16,4 @@
       <ProjectReference Include="..\Application\Application.csproj" />
       <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
     </ItemGroup>
-
-    <Target Name="CopyAppSettings" AfterTargets="Build">
-        <Copy SourceFiles="appsettings.Development.json"
-              DestinationFolder="../Infrastructure/bin/Debug/net8.0"
-              SkipUnchangedFiles="true" />
-    </Target>
-
 </Project>

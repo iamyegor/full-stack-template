@@ -1,15 +1,15 @@
-import sendMarkTodoCompletedRequest from "@/features/todos/api/sendMarkTodoCompletedRequest";
+import sendChangeCompletionStatusRequest from "@/features/todos/api/sendMarkTodoCompletedRequest";
 import PagedTodoResponse from "@/features/todos/types/PagedTodoResponse";
 import { InfiniteData, useMutation, useQueryClient } from "@tanstack/react-query";
 
 const queryKey = ["todos-paged"];
 
-export default function useMarkPagedTodoCompleted() {
+export default function usePagedTodoChangeCompletion() {
     const queryClient = useQueryClient();
 
     const markTodoCompletedMutation = useMutation({
-        mutationFn: sendMarkTodoCompletedRequest,
-        onMutate: async (todoId: number) => {
+        mutationFn: sendChangeCompletionStatusRequest,
+        onMutate: async ({ todoId, completed }: { todoId: number; completed: boolean }) => {
             await queryClient.cancelQueries({ queryKey });
 
             const previousData =
@@ -23,7 +23,7 @@ export default function useMarkPagedTodoCompleted() {
                     pages: data.pages.map((page) => ({
                         ...page,
                         todos: page.todos.map((todo) =>
-                            todo.id === todoId ? { ...todo, completed: true } : todo
+                            todo.id === todoId ? { ...todo, completed } : todo
                         ),
                     })),
                 };

@@ -1,13 +1,11 @@
+using Api.DiExtensions;
 using Api.Mappings;
-using Serilog;
-using Serilog.Debugging;
-using Serilog.Events;
 
 namespace Api;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddBaseServices(
+    public static IServiceCollection AddApiServices(
         this IServiceCollection services,
         string corsPolicy
     )
@@ -17,6 +15,7 @@ public static class DependencyInjection
         services.AddSwaggerGen();
         services.AddCors(corsPolicy);
         services.RegisterMappings();
+        services.AddRateLimiting();
 
         return services;
     }
@@ -41,19 +40,5 @@ public static class DependencyInjection
                 }
             );
         });
-    }
-
-    public static void AddSerilog(this ConfigureHostBuilder host)
-    {
-        Log.Logger = new LoggerConfiguration()
-            .MinimumLevel.Information()
-            .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
-            .Enrich.FromLogContext()
-            .WriteTo.Console()
-            .WriteTo.File(path: "/logs/log-.log", rollingInterval: RollingInterval.Day)
-            .CreateLogger();
-
-        SelfLog.Enable(Console.Out);
-        host.UseSerilog();
     }
 }

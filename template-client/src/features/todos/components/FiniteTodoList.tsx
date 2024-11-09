@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import fetchTodos from "@/features/todos/api/fetchTodos";
-import useMarkPagedTodoCompleted from "@/features/todos/hooks/useMarkPagedTodoCompleted";
+import useTodoChangeCompletion from "@/features/todos/hooks/useTodoChangeCompletion";
 import { useQuery } from "@tanstack/react-query";
 import { ArrowLeft, CheckCircle, Clock, Loader2 } from "lucide-react";
 import Link from "next/link";
@@ -12,7 +12,8 @@ export default function FiniteTodoList() {
         queryKey: ["todos"],
         queryFn: fetchTodos,
     });
-    const markTodoCompleted = useMarkPagedTodoCompleted();
+
+    const { changeCompletionStatus } = useTodoChangeCompletion();
 
     const todos = data ?? [];
 
@@ -52,7 +53,12 @@ export default function FiniteTodoList() {
                                 {todo.title}
                             </p>
                             <Button
-                                onClick={() => markTodoCompleted(todo.id)}
+                                onClick={() =>
+                                    changeCompletionStatus({
+                                        todoId: todo.id,
+                                        completed: !todo.completed,
+                                    })
+                                }
                                 size="icon"
                                 variant={todo.completed ? "ghost" : "outline"}
                                 className={`rounded-full ${
