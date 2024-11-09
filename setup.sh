@@ -102,6 +102,13 @@ replace_in_file "$dockerfile" 'COPY \["Template/Domain/Domain.csproj"' "COPY [\"
 replace_in_file "$dockerfile" 'COPY \["Template/Infrastructure/Infrastructure.csproj"' "COPY [\"${pascal_name}/Infrastructure/Infrastructure.csproj\""
 replace_in_file "$dockerfile" 'COPY Template/' "COPY ${pascal_name}/"
 
+# Update migrations Dockerfile
+migrations_dockerfile="${kebab_name}-server/migrators/${kebab_name}/Dockerfile"
+echo "Updating migrations ${migrations_dockerfile}..."
+replace_in_file "$migrations_dockerfile" 'COPY migrators/template/' "COPY migrators/${kebab_name}/"
+replace_in_file "$migrations_dockerfile" 'COPY \["migrators/template/' "COPY [\"migrators/${kebab_name}/"
+replace_in_file "$migrations_dockerfile" 'COPY \["Template/' "COPY [\"${pascal_name}/"
+
 # Rename migrators template folder
 mv "${kebab_name}-server/migrators/template" "${kebab_name}-server/migrators/${kebab_name}"
 

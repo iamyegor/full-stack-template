@@ -1,10 +1,11 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-COPY Migrator/Migrator.csproj Migrator/
+COPY migrators/template/Migrator/Migrator.csproj Migrator/
 RUN dotnet restore Migrator/Migrator.csproj
 
-COPY . .
+COPY ["migrators/template/Migrator/", "Migrator/"]
+COPY ["Template/Infrastructure/Data/Migrations/", "Migrator/Migrations/"]
 
 WORKDIR /src/Migrator
 RUN dotnet publish Migrator.csproj -c Release -o /app/publish
