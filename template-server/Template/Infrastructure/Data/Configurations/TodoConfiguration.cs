@@ -17,5 +17,10 @@ public class TodoConfiguration : IEntityTypeConfiguration<Todo>
             .HasColumnName("completed")
             .IsRequired()
             .HasDefaultValue(false);
+
+        builder
+            .HasGeneratedTsVectorColumn(t => t.SearchVector, "english", b => new { b.Title })
+            .HasIndex(b => b.SearchVector)
+            .HasMethod("GIN");
     }
 }

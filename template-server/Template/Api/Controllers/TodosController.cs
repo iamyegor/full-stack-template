@@ -31,9 +31,9 @@ public class TodosController : ApplicationController
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetTodos()
+    public async Task<IActionResult> GetTodos(string? search)
     {
-        List<TodoDto> todos = await _mediator.Send(new GetTodosQuery());
+        List<TodoDto> todos = await _mediator.Send(new GetTodosQuery(search));
 
         return Ok(todos);
     }
