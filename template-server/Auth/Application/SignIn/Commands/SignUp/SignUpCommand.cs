@@ -12,7 +12,8 @@ namespace Application.SignIn.Commands.SignUp;
 public record SignUpCommand(string Email, string Password, string? DeviceId)
     : IRequest<Result<Infrastructure.Features.Auth.Tokens, Error>>;
 
-public class SignUpCommandHandler : IRequestHandler<SignUpCommand, Result<Infrastructure.Features.Auth.Tokens, Error>>
+public class SignUpCommandHandler
+    : IRequestHandler<SignUpCommand, Result<Infrastructure.Features.Auth.Tokens, Error>>
 {
     private readonly ApplicationContext _context;
     private readonly DomainEmailSender _emailSender;
@@ -32,10 +33,17 @@ public class SignUpCommandHandler : IRequestHandler<SignUpCommand, Result<Infras
         _userRemover = userRemover;
     }
 
-    public async Task<Result<Infrastructure.Features.Auth.Tokens, Error>> Handle(SignUpCommand command, CancellationToken ct)
+    public async Task<Result<Infrastructure.Features.Auth.Tokens, Error>> Handle(
+        SignUpCommand command,
+        CancellationToken ct
+    )
     {
-        Domain.Users.ValueObjects.Password password = Domain.Users.ValueObjects.Password.Create(command.Password);
-        Domain.Users.ValueObjects.Email email = Domain.Users.ValueObjects.Email.Create(command.Email);
+        Domain.Users.ValueObjects.Password password = Domain.Users.ValueObjects.Password.Create(
+            command.Password
+        );
+        Domain.Users.ValueObjects.Email email = Domain.Users.ValueObjects.Email.Create(
+            command.Email
+        );
         DeviceId deviceId = DeviceId.Create(command.DeviceId);
 
         Error? userAlreadyExistsError = await GetErrorIfUserAlreadyExists(email, ct);
@@ -60,7 +68,10 @@ public class SignUpCommandHandler : IRequestHandler<SignUpCommand, Result<Infras
         return tokens;
     }
 
-    private async Task<Error?> GetErrorIfUserAlreadyExists(Domain.Users.ValueObjects.Email email, CancellationToken ct)
+    private async Task<Error?> GetErrorIfUserAlreadyExists(
+        Domain.Users.ValueObjects.Email email,
+        CancellationToken ct
+    )
     {
         Domain.Users.User? userWithSameEmail = await _context.Users.SingleOrDefaultAsync(
             x => x.Email != null && x.Email.Value == email.Value,

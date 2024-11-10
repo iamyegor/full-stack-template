@@ -1,4 +1,5 @@
 using System.Reflection;
+using Domain.OutboxMessages;
 using Domain.Users;
 using Infrastructure.Data.Helpers.Specifications;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,8 @@ public class ApplicationContext : DbContext
 {
     private readonly string _connectionString;
     private readonly bool _useLogger;
+    public DbSet<User> Users => Set<User>();
+    public DbSet<OutboxMessage> OutboxMessages => Set<OutboxMessage>();
 
     public ApplicationContext() { }
 
@@ -19,8 +22,6 @@ public class ApplicationContext : DbContext
         _connectionString = connectionString;
         _useLogger = useLogger;
     }
-
-    public DbSet<User> Users => Set<User>();
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

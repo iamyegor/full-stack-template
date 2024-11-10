@@ -1,8 +1,9 @@
+using System.Reflection;
 using Api.DiExtensions;
 using Api.Middlewares;
 using Application;
-using DotNetEnv;
 using Infrastructure;
+using SharedKernel.Communication.Extensions;
 
 namespace Api;
 
@@ -18,7 +19,8 @@ public static class Startup
         builder
             .Services.AddApiServices(CorsPolicy)
             .AddInfrastructureServices(builder.Configuration, builder.Environment.IsDevelopment())
-            .AddApplicationValidation();
+            .AddApplicationValidation()
+            .AddMassTransit(builder.Configuration, Assembly.GetExecutingAssembly(), "Auth");
 
         return builder.Build();
     }

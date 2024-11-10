@@ -25,25 +25,22 @@ public class EmailController : ApplicationController
         _mediator = mediator;
     }
 
-    [Authorize]
+    // [Authorize]
     [HttpPost("confirm-email")]
     public async Task<IActionResult> ConfirmEmail(VerifyEmailDto dto)
-    { 
-        Result<UserId, Error> userIdOrError = _userIdExtractor.ExtractUserId(Request.Cookies);
-        if (userIdOrError.IsFailure)
-        {
-            return Problem(userIdOrError.Error);
-        }
+    {
+        // Result<UserId, Error> userIdOrError = _userIdExtractor.ExtractUserId(Request.Cookies);
+        // if (userIdOrError.IsFailure)
+        //     return Problem(userIdOrError.Error);
 
         ConfirmEmailCommand confirmEmailCommand = new ConfirmEmailCommand(
-            userIdOrError.Value,
+            // userIdOrError.Value,
+            new UserId(new Guid("8fd488ac-e7eb-49e0-8447-5c6d67a99684")),
             dto.Code
         );
         SuccessOr<Error> result = await _mediator.Send(confirmEmailCommand);
         if (result.IsFailure)
-        {
             return Problem(result.Error);
-        }
 
         return Ok();
     }
@@ -54,9 +51,7 @@ public class EmailController : ApplicationController
     {
         Result<UserId, Error> userIdOrError = _userIdExtractor.ExtractUserId(Request.Cookies);
         if (userIdOrError.IsFailure)
-        {
             return Problem(userIdOrError.Error);
-        }
 
         ResendEmailCodeCommand resendEmailCodeCommand = new ResendEmailCodeCommand(
             userIdOrError.Value

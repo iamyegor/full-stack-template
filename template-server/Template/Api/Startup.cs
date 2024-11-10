@@ -19,7 +19,7 @@ public static class Startup
             .Services.AddBaseServices(CorsPolicy)
             .AddApplication()
             .AddInfrastructureServices(builder.Configuration, builder.Environment.IsDevelopment())
-            .AddMassTransit(builder.Configuration, Assembly.GetExecutingAssembly());
+            .AddMassTransit(builder.Configuration, Assembly.GetExecutingAssembly(), "MyApp289");
 
         return builder.Build();
     }

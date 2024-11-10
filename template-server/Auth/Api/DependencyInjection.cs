@@ -1,5 +1,6 @@
 using Api.DiExtensions;
 using Api.Mappings;
+using SharedKernel.Communication.Extensions;
 
 namespace Api;
 

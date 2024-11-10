@@ -34,22 +34,23 @@ public class ConfirmEmailCommandHandler : IRequestHandler<ConfirmEmailCommand, S
             || user.EmailVerificationCode == null
             || user.EmailVerificationCode != code
         )
-        {
             return Errors.EmailVerificationCode.IsInvalid;
-        }
 
         if (user.EmailVerificationCode.IsExpired)
-        {
             return Errors.EmailVerificationCode.IsExpired;
-        }
-        
-        user.ConfirmEmail();
-        await _context.SaveChangesAsync(ct);
 
-        await _publishEndpoint.Publish(
-            new UserRegisteredEvent(user.Id.Value, user.Email!.Value),
-            ct
+        user.ConfirmEmail();
+
+        UserConfirmedEmailEvent @event = new UserConfirmedEmailEvent(
+            user.Id.Value,
+            user.Email!.Value
         );
+        await _publishEndpoint.Publish(@event, ct);
+
+        // using IDbContextTransaction transaction = await _context.Database.BeginTransactionAsync(ct);
+        // await _context.SaveChangesAsync(ct);
+        // await _outboxService.SaveMessageAsync(@event, ct);
+        // await transaction.CommitAsync(ct);
 
         return Result.Ok();
     }
