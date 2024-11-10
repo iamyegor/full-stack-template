@@ -54,7 +54,6 @@ mv template-client "${kebab_name}-client"
 
 # Update docker-compose.yaml
 echo "Updating docker-compose.yaml..."
-replace_in_file "${kebab_name}-server/docker-compose.yaml" "template-rabbitmq" "${kebab_name}-rabbitmq"
 
 # Rename Template folder to project name
 mv "${kebab_name}-server/Template" "${kebab_name}-server/${pascal_name}"
@@ -64,7 +63,6 @@ main_settings="${kebab_name}-server/${pascal_name}/Api/appsettings.json"
 echo "Updating ${main_settings}..."
 replace_in_file "$main_settings" "template.server" "${kebab_name}.server"
 replace_in_file "$main_settings" "template.client" "${kebab_name}.client"
-replace_in_file "$main_settings" "template-rabbitmq" "${kebab_name}-rabbitmq"
 
 # Update appsettings.Development.json in main project
 main_dev_settings="${kebab_name}-server/${pascal_name}/Api/appsettings.Development.json"
@@ -81,7 +79,6 @@ auth_settings="${kebab_name}-server/Auth/Api/appsettings.json"
 echo "Updating ${auth_settings}..."
 replace_in_file "$auth_settings" "template.server" "${kebab_name}.server"
 replace_in_file "$auth_settings" "template.client" "${kebab_name}.client"
-replace_in_file "$auth_settings" "template-rabbitmq" "${kebab_name}-rabbitmq"
 
 # Update Auth/Api/appsettings.Development.json
 auth_dev_settings="${kebab_name}-server/Auth/Api/appsettings.Development.json"
