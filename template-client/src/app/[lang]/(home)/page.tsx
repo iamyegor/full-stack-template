@@ -1,7 +1,11 @@
-import { LogIn, ListTodo, Infinity } from "lucide-react";
+import getLocale from "@/features/i18n/utils/getLocale";
+import { Infinity, ListTodo, LogIn } from "lucide-react";
 import Link from "next/link";
 
-export default function HomePage() {
+export default async function HomePage() {
+    const lang = await getLocale();
+    console.log("lang", lang);
+
     return (
         <div className=" bg-gradient-to-br from-purple-100 to-indigo-100 font-sans">
             <Link

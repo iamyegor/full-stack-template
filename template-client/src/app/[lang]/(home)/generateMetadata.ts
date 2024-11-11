@@ -22,11 +22,11 @@ export function generateMetadata(): Metadata {
         alternates: {
             languages: {
                 en: "/en",
+                ru: "/ru",
                 // zh: "/zh",
                 // fr: "/fr",
                 // es: "/es",
                 // de: "/de",
-                // ru: "/ru",
             },
         },
     };

@@ -24,6 +24,7 @@ const nextConfig = {
             },
         },
     },
+    reactStrictMode: false,
     webpack: svgsConfig,
 };
 

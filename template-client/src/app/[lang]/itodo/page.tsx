@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { useLocale } from "@/features/i18n/hooks/useLocale";
 import usePagedTodos from "@/features/todos/hooks/useFetchTodosInfinitely";
 import usePagedTodoChangeCompletion from "@/features/todos/hooks/usePagedTodoChangeCompletion";
 import { ArrowLeft, CheckCircle, Clock, Loader2 } from "lucide-react";
@@ -9,6 +10,9 @@ import Link from "next/link";
 export default function InfiniteTodoListPage() {
     const { todos, todosEndRef, hasNextPage, isLoading, isError } = usePagedTodos();
     const changeCompletionStatus = usePagedTodoChangeCompletion();
+
+    const locale = useLocale();
+    console.log("locale from hook", locale);
 
     if (isLoading)
         return (
