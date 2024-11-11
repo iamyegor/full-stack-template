@@ -13,6 +13,7 @@ const nextConfig = {
         DB_USER: process.env.NODE_ENV === "development" ? "postgres" : process.env.DB_USER,
         DB_PASSWORD: process.env.NODE_ENV === "development" ? "yegor" : process.env.DB_PASSWORD,
         DB_NAME: process.env.NODE_ENV === "development" ? "template_db" : process.env.DB_NAME,
+        strapi: process.env.NODE_ENV === "development" ? "http://localhost:1337/api" : process.env.STRAPI,
     },
     images: {
         domains: ["localhost"],
