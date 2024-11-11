@@ -1,7 +1,8 @@
+import Providers from "@/lib/Providers";
+import { NextIntlClientProvider } from "next-intl";
 import { Inter } from "next/font/google";
 import React from "react";
 import "./globals.css";
-import Providers from "@/lib/Providers";
 
 const interFont = Inter({
     subsets: ["cyrillic"],
@@ -9,7 +10,7 @@ const interFont = Inter({
     weight: ["400", "500", "600", "700"],
 });
 
-export default function RootLayout({
+export default async function RootLayout({
     children,
 }: Readonly<{
     children: React.ReactNode;
@@ -17,7 +18,9 @@ export default function RootLayout({
     return (
         <html className={`${interFont.variable}`} data-lt-installed="true">
             <body className={`antialiased`}>
-                <Providers>{children}</Providers>
+                <Providers>
+                    <NextIntlClientProvider>{children}</NextIntlClientProvider>
+                </Providers>
             </body>
         </html>
     );

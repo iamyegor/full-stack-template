@@ -3,10 +3,13 @@
 import { Button } from "@/components/ui/button";
 import usePagedTodos from "@/features/todos/hooks/useFetchTodosInfinitely";
 import usePagedTodoChangeCompletion from "@/features/todos/hooks/usePagedTodoChangeCompletion";
+import { Link } from "@/i18n/routing";
 import { ArrowLeft, CheckCircle, Clock, Loader2 } from "lucide-react";
-import Link from "next/link";
+import { useLocale } from "next-intl";
 
 export default function InfiniteTodoListPage() {
+    const locale = useLocale();
+    console.log("locale", locale);
     const { todos, todosEndRef, hasNextPage, isLoading, isError } = usePagedTodos();
     const changeCompletionStatus = usePagedTodoChangeCompletion();
 

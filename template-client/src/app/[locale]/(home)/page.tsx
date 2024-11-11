@@ -1,9 +1,11 @@
-import { LogIn, ListTodo, Infinity } from "lucide-react";
-import Link from "next/link";
+import LanguageSwitcher from "@/features/languages/components/LanguageSwitcher";
+import { Link } from "@/i18n/routing";
+import { Infinity, ListTodo, LogIn } from "lucide-react";
 
-export default function HomePage() {
+export default async function HomePage() {
     return (
         <div className=" bg-gradient-to-br from-purple-100 to-indigo-100 font-sans">
+            <LanguageSwitcher />
             <Link
                 href="/signin"
                 className="absolute right-5 top-5 bg-blue-600 p-1 rounded-full w-11 h-11 flex items-center justify-center"

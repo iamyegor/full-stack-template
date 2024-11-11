@@ -1,4 +1,7 @@
 import svgsConfig from "./svgs.config.js";
+import createNextIntlPlugin from "next-intl/plugin";
+
+const withNextIntl = createNextIntlPlugin();
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -24,7 +27,10 @@ const nextConfig = {
             },
         },
     },
+    reactStrictMode: false,
     webpack: svgsConfig,
 };
 
-export default nextConfig;
+export default withNextIntl(nextConfig);
+
+// export default nextConfig;
