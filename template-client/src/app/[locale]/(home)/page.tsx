@@ -29,7 +29,7 @@ export default async function HomePage() {
                         <p className="text-purple-600 mb-12 text-center">{finite.description}</p>
                     </div>
                     <Link
-                        href={`/${finite.slug}`}
+                        href={`/ftodo`}
                         className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-full text-lg lg:text-xl transition-colors duration-300"
                     >
                         {finite.buttonText}
@@ -44,7 +44,7 @@ export default async function HomePage() {
                         <p className="text-indigo-600 mb-12 text-center">{infinite.description}</p>
                     </div>
                     <Link
-                        href={`/${infinite.slug}`}
+                        href={`/itodo`}
                         className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-full text-lg lg:text-xl transition-colors duration-300"
                     >
                         {infinite.buttonText}
