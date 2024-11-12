@@ -7,8 +7,7 @@ import { getLocale } from "next-intl/server";
 
 export default async function HomePage() {
     const locale = (await getLocale()) as Language;
-    const { data } = await fetchTodoLists(locale);
-    const [finite, infinite] = data.todoLists;
+    const { finite, infinite } = await fetchTodoLists(locale);
 
     return (
         <div className="bg-gradient-to-br from-purple-100 to-indigo-100 font-sans">
@@ -24,7 +23,7 @@ export default async function HomePage() {
                     <div className="flex flex-col items-center">
                         <ListTodo className="w-24 h-24 text-purple-600 mb-3" />
                         <h1 className="text-[32px] lg:text-[45px] font-bold text-purple-800 mb-4 text-center leading-[1.1]">
-                            {finite.name}
+                            {finite.title}
                         </h1>
                         <p className="text-purple-600 mb-12 text-center">{finite.description}</p>
                     </div>
@@ -39,7 +38,7 @@ export default async function HomePage() {
                     <div className="flex flex-col items-center">
                         <Infinity className="w-24 h-24 text-indigo-600 mb-3" />
                         <h1 className="text-[32px] lg:text-[45px] font-bold text-indigo-800 mb-4 leading-[1.1] text-center">
-                            {infinite.name}
+                            {infinite.title}
                         </h1>
                         <p className="text-indigo-600 mb-12 text-center">{infinite.description}</p>
                     </div>
