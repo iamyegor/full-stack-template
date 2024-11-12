@@ -12,6 +12,8 @@ public static class Startup
 
     public static WebApplication ConfigureServices(this WebApplicationBuilder builder)
     {
+        builder.AddServiceDefaults();
+        
         builder.WebHost.UseSentry();
         builder.Host.AddSerilog();
 

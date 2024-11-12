@@ -26,24 +26,26 @@ public static class MassTransitServicesExtensions
             busConfigurator.UsingRabbitMq(
                 (context, configurator) =>
                 {
-                    string host = config["RabbitMq:Host"]!;
-                    string username = config["RabbitMq:Username"]!;
-                    string password = config["RabbitMq:Password"]!;
-                    if (AppEnv.IsProduction)
+                    if (AppEnv.IsDevelopment)
                     {
-                        host = Environment.GetEnvironmentVariable("RABBITMQ_HOST")!;
-                        username = Environment.GetEnvironmentVariable("RABBITMQ_USER")!;
-                        password = Environment.GetEnvironmentVariable("RABBITMQ_PASSWORD")!;
+                        var configService = context.GetRequiredService<IConfiguration>();
+                        var connectionString = configService.GetConnectionString("rabbitmq");
+                        configurator.Host(connectionString);
                     }
-
-                    configurator.Host(
-                        new Uri(host),
-                        hostConfigurator =>
-                        {
-                            hostConfigurator.Username(username);
-                            hostConfigurator.Password(password);
-                        }
-                    );
+                    else
+                    {
+                        string host = Environment.GetEnvironmentVariable("RABBITMQ_HOST")!;
+                        string username = Environment.GetEnvironmentVariable("RABBITMQ_USER")!;
+                        string password = Environment.GetEnvironmentVariable("RABBITMQ_PASSWORD")!;
+                        configurator.Host(
+                            new Uri(host),
+                            hostConfigurator =>
+                            {
+                                hostConfigurator.Username(username);
+                                hostConfigurator.Password(password);
+                            }
+                        );
+                    }
 
                     configurator.UseMessageRetry(r => r.Interval(5, TimeSpan.FromSeconds(10)));
 

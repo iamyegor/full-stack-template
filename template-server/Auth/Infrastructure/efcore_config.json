@@ -1,5 +1,0 @@
-{
-  "ConnectionStrings": {
-    "Default": "Host=localhost;Port=5432;Username=postgres;Password=yegor;Database=clean_auth"
-  }
-}
