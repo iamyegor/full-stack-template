@@ -1,9 +1,9 @@
+import Link from "@/features/i18n/components/Link";
+import getLocale from "@/features/i18n/utils/getLocales";
 import LanguageSwitcher from "@/features/languages/components/LanguageSwitcher";
 import Language from "@/features/languages/types/Language";
 import fetchTodoLists from "@/features/todos/api/fetchTodoLists";
-import { Link } from "@/i18n/routing";
 import { Infinity, ListTodo, LogIn } from "lucide-react";
-import { getLocale } from "next-intl/server";
 
 export default async function HomePage() {
     const locale = (await getLocale()) as Language;
