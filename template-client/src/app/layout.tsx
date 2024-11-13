@@ -1,9 +1,10 @@
+import CookieBanner from "@/components/CookieBanner/CookieBanner";
 import Providers from "@/lib/Providers";
-import { Inter } from "next/font/google";
-import React from "react";
 import { GoogleAnalytics } from "@next/third-parties/google";
-import "./globals.css";
+import { Inter } from "next/font/google";
 import Script from "next/script";
+import React from "react";
+import "./globals.css";
 
 const interFont = Inter({
     subsets: ["cyrillic"],
@@ -20,8 +21,8 @@ export default async function RootLayout({
         <html className={`${interFont.variable}`} data-lt-installed="true">
             <body className={`antialiased`}>
                 <Providers>{children}</Providers>
+                <CookieBanner />
             </body>
-            <GoogleAnalytics gaId="G-SDHY5BQ9YH" />
             <Script
                 async
                 src="https://stats.fullstacktemplate.ru/script.js"
