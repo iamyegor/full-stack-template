@@ -13,3 +13,7 @@ This projects contains 5 pieces that need to work together:
 - RabbitMQ and Directus are started together in the top level docker-compose.yaml file
 - The remaining projects have to be started manually
 - Backends use PostgreSQL database, connection string is located in appsettings.json in both projects
+
+## When using the template
+
+- Add Sentry to NEXT.JS
