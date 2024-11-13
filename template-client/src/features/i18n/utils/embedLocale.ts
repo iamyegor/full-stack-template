@@ -1,15 +1,3 @@
-"use client";
-
-import { useLocale } from "@/features/i18n/hooks/useLocales";
-import getLocale from "@/features/i18n/utils/getLocales";
-import NextLink from "next/link";
-import { AnchorHTMLAttributes } from "react";
-
-interface LinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
-    href: string;
-    children?: React.ReactNode;
-}
-
 function isExternalUrl(url: string): boolean {
     return /^([a-z][a-z\d+\-.]*:)?\/\//i.test(url);
 }
@@ -27,7 +15,7 @@ function isHashLink(url: string): boolean {
     return url.startsWith("#");
 }
 
-function embedLocale(href: string, locale: string): string {
+export default function embedLocale(href: string, locale: string): string {
     if (!href) return href;
 
     if (isExternalUrl(href) || isSpecialProtocol(href) || isHashLink(href)) {
@@ -46,15 +34,4 @@ function embedLocale(href: string, locale: string): string {
         return href;
     }
     return `${locale}/${href}`;
-}
-
-export default function Link({ href, children, ...rest }: LinkProps) {
-    const locale = useLocale();
-    const localizedHref = embedLocale(href, locale);
-
-    return (
-        <NextLink href={localizedHref} {...rest}>
-            {children}
-        </NextLink>
-    );
 }
