@@ -1,9 +1,9 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import Link from "@/features/i18n/nextjsSpecific/Link";
 import usePagedTodos from "@/features/todos/hooks/useFetchTodosInfinitely";
 import usePagedTodoChangeCompletion from "@/features/todos/hooks/usePagedTodoChangeCompletion";
-import { Link } from "@/i18n/routing";
 import { ArrowLeft, CheckCircle, Clock, Loader2 } from "lucide-react";
 
 export default function InfiniteTodoListPage() {

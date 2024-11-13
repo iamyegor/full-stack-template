@@ -1,5 +1,4 @@
 import Providers from "@/lib/Providers";
-import { NextIntlClientProvider } from "next-intl";
 import { Inter } from "next/font/google";
 import React from "react";
 import "./globals.css";
@@ -18,9 +17,7 @@ export default async function RootLayout({
     return (
         <html className={`${interFont.variable}`} data-lt-installed="true">
             <body className={`antialiased`}>
-                <Providers>
-                    <NextIntlClientProvider>{children}</NextIntlClientProvider>
-                </Providers>
+                <Providers>{children}</Providers>
             </body>
         </html>
     );

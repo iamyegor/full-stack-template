@@ -1,6 +1,6 @@
 "use server";
 
-import Language from "@/features/languages/types/Language";
+import Language from "@/features/i18n/types/Language";
 import getDirectusClient from "@/lib/directus/getDirectusClient";
 // import directus from "@/lib/directus/directus";
 import { readItems } from "@directus/sdk";

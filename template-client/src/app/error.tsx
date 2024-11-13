@@ -1,6 +1,6 @@
 "use client";
 
-import { Link } from "@/i18n/routing";
+import Link from "@/features/i18n/nextjsSpecific/Link";
 import { AlertCircle, Home, RefreshCcw } from "lucide-react";
 
 interface ErrorComponentProps {
