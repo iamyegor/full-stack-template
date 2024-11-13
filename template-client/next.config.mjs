@@ -8,7 +8,6 @@ const nextConfig = {
     env: {
         api: process.env.NODE_ENV === "development" ? "http://localhost:5026/" : process.env.API,
         authApi: process.env.NODE_ENV === "development" ? "http://localhost:5029/" : process.env.AUTH_API,
-        domain: "FILL_ME_IN",
         directus: process.env.NODE_ENV === "development" ? "http://localhost:8055" : process.env.DIRECTUS,
     },
     images: {
