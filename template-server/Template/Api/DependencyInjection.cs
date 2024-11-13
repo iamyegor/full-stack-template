@@ -30,7 +30,7 @@ public static class DependencyInjection
                 policy =>
                 {
                     policy
-                        .WithOrigins("http://localhost", "http://localhost:3000")
+                        .WithOrigins("http://localhost:3000", "https://fullstacktemplate.ru")
                         .AllowAnyHeader()
                         .AllowAnyMethod()
                         .AllowCredentials();
