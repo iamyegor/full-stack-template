@@ -34,20 +34,13 @@ public class ConfirmEmailCommandHandler : IRequestHandler<ConfirmEmailCommand, S
             || user.EmailVerificationCode == null
             || user.EmailVerificationCode != code
         )
-        {
             return Errors.EmailVerificationCode.IsInvalid;
-        }
 
         if (user.EmailVerificationCode.IsExpired)
-        {
             return Errors.EmailVerificationCode.IsExpired;
-        }
-        
-        user.ConfirmEmail();
-        await _context.SaveChangesAsync(ct);
 
         await _publishEndpoint.Publish(
-            new UserRegisteredEvent(user.Id.Value, user.Email!.Value),
+            new UserConfirmedEmailEvent(user.Id.Value, user.Email!.Value),
             ct
         );
 

@@ -1,4 +1,4 @@
-using Domain.Errors;
+using Domain.Common;
 using Newtonsoft.Json;
 using Serilog;
 

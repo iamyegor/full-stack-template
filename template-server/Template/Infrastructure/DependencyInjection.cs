@@ -1,7 +1,7 @@
 using Infrastructure.Data;
 using Infrastructure.Data.Dapper;
-using Infrastructure.Extensions;
-using Infrastructure.Utils;
+using Infrastructure.Data.Helpers;
+using Infrastructure.DiExtensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Polly;

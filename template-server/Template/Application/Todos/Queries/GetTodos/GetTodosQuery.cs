@@ -1,4 +1,4 @@
-﻿using Application.Todos.Queries.GetPagedTodos.Dtos;
+﻿using Application.Todos.Queries.Dtos;
 using Infrastructure.Data;
 using MediatR;
 using Microsoft.EntityFrameworkCore;

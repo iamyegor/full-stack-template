@@ -1,7 +1,7 @@
 using Microsoft.Extensions.Configuration;
 using SharedKernel.Utils;
 
-namespace Infrastructure.Utils;
+namespace Infrastructure.Data.Helpers;
 
 public class ConnectionStringResolver
 {

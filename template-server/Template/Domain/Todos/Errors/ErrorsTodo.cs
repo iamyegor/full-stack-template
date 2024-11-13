@@ -1,4 +1,4 @@
-﻿using Domain.Errors;
+﻿using Domain.Common;
 
 namespace Domain.Todos.Errors;
 

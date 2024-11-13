@@ -1,8 +1,8 @@
 ﻿namespace SharedKernel.Communication.Events;
 
-public class UserRegisteredEvent
+public class UserConfirmedEmailEvent
 {
-    public UserRegisteredEvent(Guid id, string email)
+    public UserConfirmedEmailEvent(Guid id, string email)
     {
         Id = id;
         Email = email;

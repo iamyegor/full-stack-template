@@ -1,8 +1,7 @@
-using System.Reflection;
+using Api.DiExtensions;
 using Api.Utils;
 using Application;
 using Infrastructure;
-using SharedKernel.Communication.Extensions;
 
 namespace Api;
 
@@ -19,7 +18,7 @@ public static class Startup
             .Services.AddBaseServices(CorsPolicy)
             .AddApplication()
             .AddInfrastructureServices(builder.Configuration, builder.Environment.IsDevelopment())
-            .AddMassTransit(builder.Configuration, Assembly.GetExecutingAssembly());
+            .AddMassTransit(builder.Configuration);
 
         return builder.Build();
     }

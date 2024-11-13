@@ -4,7 +4,6 @@ using Infrastructure.DIExtensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Auth;
-using SharedKernel.Communication.Extensions;
 
 namespace Infrastructure;
 
@@ -24,7 +23,6 @@ public static class DependencyInjection
             .AddUtils()
             .AddEmails(config)
             .AddResilience()
-            .AddMassTransit(config)
             .AddAuth(config)
             .AddAuthUtils(config);
 

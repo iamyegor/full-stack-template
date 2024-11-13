@@ -1,5 +1,4 @@
 ﻿using Domain.Common;
-using Domain.Errors;
 using Domain.Todos.Errors;
 using NpgsqlTypes;
 using XResults;

@@ -1,4 +1,4 @@
-using Infrastructure.Utils;
+using Infrastructure.Data.Helpers;
 using Npgsql;
 
 namespace Infrastructure.Data.Dapper;

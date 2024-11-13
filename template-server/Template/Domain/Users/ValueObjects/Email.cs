@@ -1,6 +1,5 @@
 ﻿using System.Text.RegularExpressions;
 using Domain.Common;
-using Domain.Errors;
 using Domain.Users.Errors;
 using XResults;
 

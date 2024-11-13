@@ -1,8 +1,7 @@
-using Domain.Common;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
-namespace Domain.Errors;
+namespace Domain.Common;
 
 public class Error : ValueObject
 {

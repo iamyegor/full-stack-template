@@ -1,30 +1,24 @@
 ﻿using System.Reflection;
 using MassTransit;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Utils;
 
-namespace SharedKernel.Communication.Extensions;
+namespace Api.DiExtensions;
 
-public static class MassTransitServicesExtensions
+public static class MassTransitExtensions
 {
     public static IServiceCollection AddMassTransit(
         this IServiceCollection services,
-        IConfiguration config,
-        Assembly? assembly = null
+        IConfiguration config
     )
     {
-        services.AddMassTransit(busConfigurator =>
+        services.AddMassTransit(busConfig =>
         {
-            busConfigurator.SetKebabCaseEndpointNameFormatter();
+            busConfig.SetKebabCaseEndpointNameFormatter();
 
-            if (assembly != null)
-            {
-                busConfigurator.AddConsumers(assembly);
-            }
+            busConfig.AddConsumers(Assembly.GetExecutingAssembly());
 
-            busConfigurator.UsingRabbitMq(
-                (context, configurator) =>
+            busConfig.UsingRabbitMq(
+                (context, cfg) =>
                 {
                     string host = config["RabbitMq:Host"]!;
                     string username = config["RabbitMq:Username"]!;
@@ -36,7 +30,7 @@ public static class MassTransitServicesExtensions
                         password = Environment.GetEnvironmentVariable("RABBITMQ_PASSWORD")!;
                     }
 
-                    configurator.Host(
+                    cfg.Host(
                         new Uri(host),
                         hostConfigurator =>
                         {
@@ -45,9 +39,13 @@ public static class MassTransitServicesExtensions
                         }
                     );
 
-                    configurator.UseMessageRetry(r => r.Interval(5, TimeSpan.FromSeconds(10)));
-
-                    configurator.ConfigureEndpoints(context);
+                    cfg.ReceiveEndpoint(
+                        "app-queue",
+                        e =>
+                        {
+                            e.ConfigureConsumers(context);
+                        }
+                    );
                 }
             );
         });

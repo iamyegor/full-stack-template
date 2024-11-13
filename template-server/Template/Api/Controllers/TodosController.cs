@@ -1,10 +1,10 @@
 using Api.Controllers.Common;
 using Api.Dtos;
 using Application.Todos.Commands.ChangeCompletionStatus;
+using Application.Todos.Queries.Dtos;
 using Application.Todos.Queries.GetPagedTodos;
-using Application.Todos.Queries.GetPagedTodos.Dtos;
 using Application.Todos.Queries.GetTodos;
-using Domain.Errors;
+using Domain.Common;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using XResults;

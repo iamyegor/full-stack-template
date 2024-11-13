@@ -2,7 +2,7 @@
 using Polly;
 using Polly.Retry;
 
-namespace Infrastructure.Extensions;
+namespace Infrastructure.DiExtensions;
 
 public static class ResilienceExtensions
 {

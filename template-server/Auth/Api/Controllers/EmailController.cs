@@ -26,7 +26,7 @@ public class EmailController : ApplicationController
     }
 
     [Authorize]
-    [HttpPost("confirm-email")]
+    [HttpPost("confirm")]
     public async Task<IActionResult> ConfirmEmail(VerifyEmailDto dto)
     { 
         Result<UserId, Error> userIdOrError = _userIdExtractor.ExtractUserId(Request.Cookies);

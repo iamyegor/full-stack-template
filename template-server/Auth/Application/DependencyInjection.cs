@@ -8,7 +8,7 @@ namespace Application;
 
 public static class DependencyInjection
 {
-    public static void AddApplicationValidation(this IServiceCollection services)
+    public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
         services.AddMediatR(config =>
@@ -16,5 +16,7 @@ public static class DependencyInjection
             config.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
             config.AddBehavior(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
         });
+        
+        return services;
     }
 }

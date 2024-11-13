@@ -1,7 +1,6 @@
 using System.Reflection;
 using Domain.Todos;
 using Domain.Users;
-using Infrastructure.Specifications;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Serilog;
@@ -39,24 +38,5 @@ public class ApplicationContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-    }
-
-    public async Task<T?> Query<T>(ISingleSpecification<T> spec, CancellationToken ct)
-        where T : class
-    {
-        IQueryable<T> query = Set<T>().AsQueryable();
-        query = spec.Apply(query);
-        return await query.FirstOrDefaultAsync(ct);
-    }
-
-    public async Task<IReadOnlyList<T>> Query<T>(
-        IMultipleSpecification<T> spec,
-        CancellationToken ct
-    )
-        where T : class
-    {
-        IQueryable<T> query = Set<T>().AsQueryable();
-        query = spec.Apply(query);
-        return await query.ToListAsync(cancellationToken: ct);
     }
 }

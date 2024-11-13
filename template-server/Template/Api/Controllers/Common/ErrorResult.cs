@@ -1,5 +1,5 @@
 using System.Net;
-using Domain.Errors;
+using Domain.Common;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers.Common;

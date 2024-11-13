@@ -13,8 +13,7 @@ public class DomainEmailSender
 
     private readonly string _htmlFolderPath = Path.Combine(
         Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!,
-        "Emails",
-        "ui"
+        "emails"
     );
 
     public DomainEmailSender(EmailSender emailSender, IWebHostEnvironment env)

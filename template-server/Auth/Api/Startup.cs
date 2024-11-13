@@ -18,7 +18,8 @@ public static class Startup
         builder
             .Services.AddApiServices(CorsPolicy)
             .AddInfrastructureServices(builder.Configuration, builder.Environment.IsDevelopment())
-            .AddApplicationValidation();
+            .AddApplicationServices()
+            .AddMassTransit(builder.Configuration);
 
         return builder.Build();
     }

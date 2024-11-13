@@ -1,4 +1,4 @@
-using Domain.Errors;
+using Domain.Common;
 using FluentValidation;
 
 namespace Application.Common.FluentValidation;
