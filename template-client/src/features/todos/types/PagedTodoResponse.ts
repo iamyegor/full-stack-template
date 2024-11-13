@@ -1,4 +1,4 @@
-import Todo from "@/src/types/Todo";
+import Todo from "@/features/todos/types/Todo";
 
 export default interface PagedTodoResponse {
     todos: Todo[];

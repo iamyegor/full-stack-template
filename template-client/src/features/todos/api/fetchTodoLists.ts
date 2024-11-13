@@ -1,5 +1,8 @@
+"use server";
+
 import Language from "@/features/languages/types/Language";
-import directus from "@/lib/directus";
+import getDirectusClient from "@/lib/directus/getDirectusClient";
+// import directus from "@/lib/directus/directus";
 import { readItems } from "@directus/sdk";
 
 interface HomePage {
@@ -15,6 +18,8 @@ interface HomePage {
 }
 
 export default async function fetchTodoLists(locale: Language) {
+    const directus = getDirectusClient();
+
     const homePage = (await directus.request(
         readItems("homePage", {
             deep: {
@@ -32,8 +37,6 @@ export default async function fetchTodoLists(locale: Language) {
 
     const finite = { ...homePage.todoLists[0].translations[0], id: homePage.todoLists[0].id };
     const infinite = { ...homePage.todoLists[1].translations[0], id: homePage.todoLists[1].id };
-
-    console.log({ finite, infinite });
 
     return { finite, infinite };
 }

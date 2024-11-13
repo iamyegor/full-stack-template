@@ -4,8 +4,10 @@ import fetchTodoLists from "@/features/todos/api/fetchTodoLists";
 import { Link } from "@/i18n/routing";
 import { Infinity, ListTodo, LogIn } from "lucide-react";
 import { getLocale } from "next-intl/server";
+import { unstable_noStore as noStore } from 'next/cache';
 
 export default async function HomePage() {
+    noStore();
     const locale = (await getLocale()) as Language;
     const { finite, infinite } = await fetchTodoLists(locale);
 
