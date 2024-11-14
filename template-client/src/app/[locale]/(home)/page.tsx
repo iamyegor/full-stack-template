@@ -1,9 +1,10 @@
+import GoToSignInButton from "@/features/auth/components/GoToSignInButton";
+import LanguageSwitcher from "@/features/i18n/components/LanguageSwitcher";
 import Link from "@/features/i18n/nextjsSpecific/Link";
 import Language from "@/features/i18n/types/Language";
 import getLocale from "@/features/i18n/utils/getLocales";
-import LanguageSwitcher from "@/features/i18n/components/LanguageSwitcher";
 import fetchTodoLists from "@/features/todos/api/fetchTodoLists";
-import { Infinity, ListTodo, LogIn } from "lucide-react";
+import { Infinity, ListTodo } from "lucide-react";
 
 export default async function HomePage() {
     const locale = (await getLocale()) as Language;
@@ -12,12 +13,7 @@ export default async function HomePage() {
     return (
         <div className="bg-gradient-to-br from-purple-100 to-indigo-100 font-sans">
             <LanguageSwitcher />
-            <Link
-                href="/signin"
-                className="absolute right-5 top-5 bg-blue-600 p-1 rounded-full w-11 h-11 flex items-center justify-center"
-            >
-                <LogIn className="text-white mr-1" />
-            </Link>
+            <GoToSignInButton />
             <div className="container mx-auto min-h-screen flex flex-col md:flex-row justify-center items-center py-12 gap-8">
                 <div className="w-full md:w-1/2 max-w-md p-8 bg-white border border-purple-300 rounded-3xl duration-300 flex flex-col justify-between items-center">
                     <div className="flex flex-col items-center">

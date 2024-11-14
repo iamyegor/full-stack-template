@@ -40,7 +40,7 @@ export default function SignInForm() {
     async function onSubmit(data: FormData) {
         try {
             setSubmitError(null);
-            await authApi.post("auth/sign-in", data);
+            await authApi.post("/auth/sign-in", data);
         } catch (error) {
             const axiosError = error as AxiosError<ServerErrorResponse>;
 

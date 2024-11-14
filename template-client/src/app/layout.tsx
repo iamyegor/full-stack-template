@@ -1,8 +1,6 @@
-import CookieBanner from "@/components/CookieBanner/CookieBanner";
-import Providers from "@/lib/Providers";
-import { GoogleAnalytics } from "@next/third-parties/google";
+import GDPRBanner from "@/components/GDPRBanner/GDPRBanner";
+import Providers from "@/components/Providers/Providers";
 import { Inter } from "next/font/google";
-import Script from "next/script";
 import React from "react";
 import "./globals.css";
 
@@ -21,13 +19,8 @@ export default async function RootLayout({
         <html className={`${interFont.variable}`} data-lt-installed="true">
             <body className={`antialiased`}>
                 <Providers>{children}</Providers>
-                <CookieBanner />
+                <GDPRBanner />
             </body>
-            <Script
-                async
-                src="https://stats.fullstacktemplate.ru/script.js"
-                data-website-id="54483bc1-f65f-4df1-b075-43fb798be847"
-            />
         </html>
     );
 }

@@ -7,6 +7,5 @@ export default async function sendChangeCompletionStatusRequest({
     todoId: number;
     completed: boolean;
 }) {
-    console.log({ todoId, completed });
-    await api.post(`todos/${todoId}/change-completion-status`, { completed });
+    await api.post(`/todos/${todoId}/change-completion-status`, { completed });
 }
