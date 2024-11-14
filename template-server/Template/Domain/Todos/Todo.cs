@@ -9,16 +9,18 @@ public class Todo : Entity<Guid>
 {
     public string Title { get; private set; }
     public bool Completed { get; private set; }
+    public DateTime CreatedAt { get; private set; }
     public NpgsqlTsVector SearchVector { get; private set; }
 
     protected Todo(Guid? id = null)
         : base(id ?? Guid.NewGuid()) { }
 
-    private Todo(Guid id, string title, bool completed)
+    private Todo(Guid id, string title, bool completed, DateTime createdAt)
         : base(id)
     {
         Title = title;
         Completed = completed;
+        CreatedAt = createdAt;
     }
 
     public static Result<Todo, Error> Create(Guid id, string title, bool completed = false)
@@ -29,7 +31,7 @@ public class Todo : Entity<Guid>
         if (title.Length > 200)
             return ErrorsTodo.TitleIsTooLong;
 
-        return new Todo(id, title.Trim(), completed);
+        return new Todo(id, title.Trim(), completed, DateTime.UtcNow);
     }
 
     public void ChangeCompletionStatus(bool completed) => Completed = completed;

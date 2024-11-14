@@ -1,5 +1,5 @@
 import sendChangeCompletionStatusRequest from "@/features/todos/api/sendMarkTodoCompletedRequest";
-import Todo from "@/features/todos/types/Todo";
+import { Todo } from "@/features/todos/types/Todo";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export default function useTodoChangeCompletion() {

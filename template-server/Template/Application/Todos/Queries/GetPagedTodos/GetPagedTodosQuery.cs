@@ -23,10 +23,11 @@ public class GetPagedTodosQueryHandler : IRequestHandler<GetPagedTodosQuery, Pag
         int skip = (query.Page - 1) * limit;
 
         List<TodoDto> todos = await _context
-            .Todos.OrderBy(t => t.Id)
+            .Todos.OrderByDescending(t => t.CreatedAt)
             .Skip(skip)
             .Take(limit + 1)
             .Select(t => new TodoDto(t.Id, t.Title, t.Completed))
+            .AsNoTracking()
             .ToListAsync(ct);
 
         bool hasNextPage = todos.Count > limit;

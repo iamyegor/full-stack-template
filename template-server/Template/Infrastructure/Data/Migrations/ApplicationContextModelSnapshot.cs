@@ -37,6 +37,10 @@ namespace Infrastructure.Migrations
                         .HasDefaultValue(false)
                         .HasColumnName("completed");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
                     b.Property<NpgsqlTsVector>("SearchVector")
                         .IsRequired()
                         .ValueGeneratedOnAddOrUpdate()

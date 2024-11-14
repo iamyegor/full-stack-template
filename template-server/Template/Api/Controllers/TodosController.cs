@@ -1,6 +1,7 @@
 using Api.Controllers.Common;
 using Api.Dtos;
 using Application.Todos.Commands.ChangeCompletionStatus;
+using Application.Todos.Commands.AddTodo;
 using Application.Todos.Queries.Dtos;
 using Application.Todos.Queries.GetPagedTodos;
 using Application.Todos.Queries.GetTodos;
@@ -44,6 +45,14 @@ public class TodosController : ApplicationController
         SuccessOr<Error> result = await _mediator.Send(
             new ChangeCompletionStatusCommand(id, dto.Completed)
         );
+
+        return FromResult(result);
+    }
+
+    [HttpPost("add")]
+    public async Task<IActionResult> AddTodo(AddTodoDto dto)
+    {
+        SuccessOr<Error> result = await _mediator.Send(new AddTodoCommand(dto.Text));
 
         return FromResult(result);
     }

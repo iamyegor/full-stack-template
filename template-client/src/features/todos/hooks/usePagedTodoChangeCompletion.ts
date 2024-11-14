@@ -37,5 +37,5 @@ export default function usePagedTodoChangeCompletion() {
         onSettled: () => queryClient.invalidateQueries({ queryKey }),
     });
 
-    return markTodoCompletedMutation.mutate;
+    return markTodoCompletedMutation;
 }

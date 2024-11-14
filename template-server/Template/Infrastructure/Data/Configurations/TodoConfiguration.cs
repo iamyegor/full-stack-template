@@ -18,6 +18,8 @@ public class TodoConfiguration : IEntityTypeConfiguration<Todo>
             .IsRequired()
             .HasDefaultValue(false);
 
+        builder.Property(t => t.CreatedAt).HasColumnName("created_at").IsRequired();
+
         builder
             .HasGeneratedTsVectorColumn(t => t.SearchVector, "english", b => new { b.Title })
             .HasIndex(b => b.SearchVector)

@@ -19,7 +19,7 @@ public class GetTodosQueryHandler : IRequestHandler<GetTodosQuery, List<TodoDto>
     public async Task<List<TodoDto>> Handle(GetTodosQuery command, CancellationToken ct)
     {
         List<TodoDto> todos = await _context
-            .Todos.OrderBy(t => t.Id)
+            .Todos.OrderByDescending(t => t.CreatedAt)
             .Where(t =>
                 command.Search == null
                 || t.SearchVector.Matches(
@@ -27,6 +27,7 @@ public class GetTodosQueryHandler : IRequestHandler<GetTodosQuery, List<TodoDto>
                 )
             )
             .Select(t => new TodoDto(t.Id, t.Title, t.Completed))
+            .AsNoTracking()
             .ToListAsync(ct);
 
         return todos;
