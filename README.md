@@ -17,3 +17,6 @@ This projects contains 5 pieces that need to work together:
 ## When using the template
 
 - Add Sentry to NEXT.JS
+- Change Sentry DSN's in backend and Auth 
+- Change google analytics id in CookieBanner.tsx
+- Change umami script in layout/app.tsx

@@ -39,7 +39,7 @@ export default async function interceptor(
 
 async function refreshToken(): Promise<EmptyResult> {
     try {
-        await authApi.post("refresh-access-token");
+        await authApi.post("infra/refresh-access-token");
         return EmptyResult.Ok();
     } catch (refreshError) {
         return EmptyResult.Fail("Token refresh failed");
@@ -47,5 +47,5 @@ async function refreshToken(): Promise<EmptyResult> {
 }
 
 async function issueNewDeviceId(): Promise<any> {
-    await authApi.post("issue-device-id");
+    await authApi.post("infra/issue-device-id");
 }
