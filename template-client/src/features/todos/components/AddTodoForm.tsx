@@ -30,7 +30,7 @@ export default function AddTodoForm({ addTodoMutation }: { addTodoMutation: UseM
             <Button
                 type="submit"
                 disabled={addTodoMutation.isPending}
-                className="bg-blue-500 text-white rounded-md hover:bg-blue-600 !h-auto !px-4"
+                className="bg-indigo-600 text-white rounded-md hover:bg-indigo-500 !h-auto !px-4"
             >
                 {addTodoMutation.isPending ? (
                     <Loader2 className="w-4 h-4 animate-spin" />

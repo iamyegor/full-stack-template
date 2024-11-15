@@ -9,6 +9,7 @@ const buttonVariants = cva(
     {
         variants: {
             variant: {
+                submit: "w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-full text-lg transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex justify-center",
                 default:
                     "bg-purple-500 text-white hover:bg-purple-500/90 dark:bg-neutral-50 dark:text-neutral-900 dark:hover:bg-neutral-50/90",
                 destructive:
@@ -21,6 +22,7 @@ const buttonVariants = cva(
                 link: "text-neutral-900 underline-offset-4 hover:underline dark:text-neutral-50",
             },
             size: {
+                auto: "h-auto",
                 default: "h-10 px-4 py-2",
                 sm: "h-9 rounded-md px-3",
                 lg: "h-11 rounded-md px-8",

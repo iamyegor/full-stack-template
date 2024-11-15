@@ -12,11 +12,9 @@ export async function middleware(request: NextRequest) {
     if (desiredLocale && desiredLocale === currentLocale) {
         return NextResponse.next();
     } else if (desiredLocale) {
-        return NextResponse.redirect(request.nextUrl, {
-            headers: {
-                "Set-Cookie": `preferredLocale=${desiredLocale}`,
-            },
-        });
+        const response = NextResponse.next();
+        response.cookies.set("preferredLocale", desiredLocale);
+        return response;
     }
 
     const locale = await getLocale(request);

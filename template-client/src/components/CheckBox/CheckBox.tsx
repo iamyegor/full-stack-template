@@ -1,5 +1,4 @@
-import React from "react";
-import CheckSvg from "@/components/CheckBox/assets/check.svg";
+import { Check } from "lucide-react";
 
 interface CheckboxProps {
     id?: string;
@@ -23,7 +22,7 @@ export default function Checkbox({ id, isChecked, onClick, className, disabled }
             type="button"
             disabled={disabled}
         >
-            {isChecked && <CheckSvg className="w-full h-full" />}
+            {isChecked && <Check className="w-full h-full text-white" />}
         </button>
     );
 }

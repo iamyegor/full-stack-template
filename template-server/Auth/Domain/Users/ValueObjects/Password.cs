@@ -22,7 +22,7 @@ public class Password : ValueObject
             return Errors.Password.IsRequired;
 
         string password = input.Trim();
-        if (password.Length < 6 || password.Length > 50)
+        if (password.Length < 6 || password.Length > 32)
             return Errors.Password.HasInvalidLength;
 
         if (!Regex.IsMatch(password, "^(?=.*[a-z])(?=.*[A-Z])(?=.*[\\d\\W]).*$"))
