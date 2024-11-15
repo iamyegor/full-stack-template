@@ -4,7 +4,7 @@ import Link from "@/features/i18n/nextjsSpecific/Link";
 import { LogIn } from "lucide-react";
 import { usePostHog } from "posthog-js/react";
 
-export default function GoToSignInButton() {
+export default function GoToSignInPageButton() {
     const posthog = usePostHog();
 
     return (

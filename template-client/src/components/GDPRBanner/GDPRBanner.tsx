@@ -2,12 +2,20 @@
 
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const GDPR_CONSENT_KEY = "gdprConsent";
 
 export default function GDPRBanner() {
-    const [showBanner, setShowBanner] = useState(localStorage.getItem(GDPR_CONSENT_KEY) !== "true");
+    const [showBanner, setShowBanner] = useState(false);
+
+    useEffect(() => {
+        const consentStatus = localStorage.getItem(GDPR_CONSENT_KEY);
+        if (consentStatus === null) {
+            setShowBanner(true);
+        }
+    }, []);
+
     function onDismiss() {
         localStorage.setItem(GDPR_CONSENT_KEY, "true");
         setShowBanner(false);
