@@ -1,5 +1,5 @@
 const commonErrors = {
-    "internal.server.error": "Server error. Please wait until it's fixed and try again.",
+    "internal.server.error": "Server error. Please try again later.",
     "unexpected.error": "An unexpected error occurred. Please try again later.",
 };
 
