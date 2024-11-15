@@ -6,6 +6,7 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from "@/component
 import { Input } from "@/components/ui/input";
 import PasswordInput from "@/features/auth/components/PasswordInput";
 import signInFormSchema from "@/features/auth/schemas/signInFormSchema";
+import getSignInError from "@/features/auth/utils/getSignInError";
 import authApi from "@/lib/api/authApi";
 import ServerErrorResponse from "@/types/errors/ServerErrorResponse";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -37,19 +38,7 @@ export default function SignInForm() {
             await authApi.post("/auth/sign-in", data);
             posthog.capture("user_sign_in");
         } catch (error) {
-            const axiosError = error as AxiosError<ServerErrorResponse>;
-
-            if (axiosError.response?.status === 429) {
-                setSubmitError(
-                    "You reached the maximum number of login attempts. Wait for 10 minutes before trying again."
-                );
-            } else if (axiosError.response?.data.errorCode) {
-                if (axiosError.response.data.errorCode === "invalid.credentials") {
-                    setSubmitError("The credentials you entered are incorrect.");
-                }
-            } else {
-                setSubmitError("An unexpected error occurred. Please try again later.");
-            }
+            setSubmitError(getSignInError(error as AxiosError<ServerErrorResponse>));
         }
     }
 

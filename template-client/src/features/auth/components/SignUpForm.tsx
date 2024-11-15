@@ -17,6 +17,7 @@ import { usePostHog } from "posthog-js/react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import getSignUpError from "@/features/auth/utils/getSignUpError";
 
 type SignUpFormValues = z.infer<typeof signUpFormSchema>;
 
@@ -39,20 +40,7 @@ export default function SignUpForm() {
             await authApi.post("/auth/sign-up", data);
             posthog.capture("user_sign_up");
         } catch (error) {
-            console.log(error);
-            const axiosError = error as AxiosError<ServerErrorResponse>;
-
-            if (axiosError.response?.status === 429) {
-                setSubmitError(
-                    "You reached the maximum number of login attempts. Wait for 10 minutes before trying again."
-                );
-            } else if (axiosError.response?.data.errorCode) {
-                if (axiosError.response.data.errorCode === "email.is.already.taken") {
-                    setSubmitError("This email is already taken.");
-                }
-            } else {
-                setSubmitError("An unexpected error occurred. Please try again later.");
-            }
+            setSubmitError(getSignUpError(error as AxiosError<ServerErrorResponse>));
         }
     }
 
