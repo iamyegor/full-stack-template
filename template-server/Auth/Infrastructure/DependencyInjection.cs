@@ -15,7 +15,7 @@ public static class DependencyInjection
         bool isDevelopment
     )
     {
-        ConnectionStringResolver connectionStringResolver = new ConnectionStringResolver(config);
+        ConnectionStringResolver connectionStringResolver = new(config);
         string connectionString = connectionStringResolver.GetBasedOnEnvironment();
 
         services
