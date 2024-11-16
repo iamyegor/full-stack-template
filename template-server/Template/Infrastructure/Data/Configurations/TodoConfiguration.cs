@@ -24,5 +24,7 @@ public class TodoConfiguration : IEntityTypeConfiguration<Todo>
             .HasGeneratedTsVectorColumn(t => t.SearchVector, "english", b => new { b.Title })
             .HasIndex(b => b.SearchVector)
             .HasMethod("GIN");
+
+        builder.Property<uint>("version").IsRowVersion();
     }
 }

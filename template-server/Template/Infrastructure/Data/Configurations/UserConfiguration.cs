@@ -18,5 +18,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
                 eBuilder.Property(x => x.Value).HasColumnName("email");
             }
         );
+
+        builder.Property<uint>("version").IsRowVersion();
     }
 }

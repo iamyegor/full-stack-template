@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import Link from "@/features/i18n/nextjsSpecific/Link";
+import ErrorAlert from "@/features/todos/components/ErrorAlert";
 import { ArrowLeft, Loader2 } from "lucide-react";
 import { ReactNode } from "react";
 
@@ -9,9 +10,17 @@ interface TodoListLayoutProps {
     isLoading?: boolean;
     isError?: boolean;
     children: ReactNode;
+    errorMessage: string | null;
+    onErrorAlertClose: () => void;
 }
 
-export default function TodoListLayout({ isLoading, isError, children }: TodoListLayoutProps) {
+export default function TodoListLayout({
+    isLoading,
+    isError,
+    children,
+    errorMessage,
+    onErrorAlertClose,
+}: TodoListLayoutProps) {
     if (isLoading) {
         return (
             <div className="flex items-center justify-center h-screen bg-blue-50">
@@ -30,6 +39,9 @@ export default function TodoListLayout({ isLoading, isError, children }: TodoLis
 
     return (
         <div className="w-full min-h-screen bg-blue-50 flex flex-col items-center pt-8 px-4">
+            {errorMessage && (
+                <ErrorAlert message={errorMessage} onClose={onErrorAlertClose} />
+            )}
             <Link href="/" className="absolute top-5 left-5">
                 <Button variant="outline" size="icon" className="rounded-full hover:bg-blue-100">
                     <ArrowLeft className="w-5 h-5 text-blue-600" />

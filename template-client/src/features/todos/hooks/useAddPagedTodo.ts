@@ -1,9 +1,16 @@
+import commonErrors from "@/data/commonErrors";
 import sendAddTodoRequest from "@/features/todos/api/sendAddTodoRequest";
 import PagedTodoResponse from "@/features/todos/types/PagedTodoResponse";
 import { Todo } from "@/features/todos/types/Todo";
+import ServerErrorResponse from "@/types/errors/ServerErrorResponse";
 import { InfiniteData, useMutation, useQueryClient } from "@tanstack/react-query";
+import { AxiosError } from "axios";
 
-export default function useAddPagedTodo() {
+export default function useAddPagedTodo({
+    setErrorMessage,
+}: {
+    setErrorMessage: (message: string | null) => void;
+}) {
     const queryKey = ["todos-paged"];
     const queryClient = useQueryClient();
 
@@ -36,8 +43,20 @@ export default function useAddPagedTodo() {
 
             return { previousTodos };
         },
-        onError: (_, __, context) => {
+        onError: (error, __, context) => {
             queryClient.setQueryData([queryKey, { page: 1 }], context?.previousTodos);
+
+            const axiosError = error as AxiosError<ServerErrorResponse>;
+            if (
+                axiosError.response?.data.errorCode &&
+                axiosError.response.data.errorCode in commonErrors
+            ) {
+                setErrorMessage(
+                    commonErrors[axiosError.response.data.errorCode as keyof typeof commonErrors]
+                );
+            } else {
+                setErrorMessage(commonErrors["unexpected.error"]);
+            }
         },
         onSettled: () => {
             queryClient.invalidateQueries({ queryKey });

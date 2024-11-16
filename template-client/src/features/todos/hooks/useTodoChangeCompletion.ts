@@ -1,8 +1,16 @@
+import commonErrors from "@/data/commonErrors";
 import sendChangeCompletionStatusRequest from "@/features/todos/api/sendMarkTodoCompletedRequest";
 import { Todo } from "@/features/todos/types/Todo";
+import ServerErrorResponse from "@/types/errors/ServerErrorResponse";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { AxiosError } from "axios";
+import getCommonError from "@/utils/errors/getCommonError";
 
-export default function useTodoChangeCompletion() {
+export default function useTodoChangeCompletion({
+    setErrorMessage,
+}: {
+    setErrorMessage: (errorMessage: string | null) => void;
+}) {
     const queryKey = ["todos"];
     const queryClient = useQueryClient();
 
@@ -19,8 +27,9 @@ export default function useTodoChangeCompletion() {
 
             return { previousData };
         },
-        onError: (_, __, context) => {
-            if (context?.previousData) queryClient.setQueryData(queryKey, context?.previousData);
+        onError: (error, __, context) => {
+            queryClient.setQueryData(queryKey, context?.previousData);
+            setErrorMessage(getCommonError(error as AxiosError<ServerErrorResponse>));
         },
         onSettled: () => queryClient.invalidateQueries({ queryKey }),
     });

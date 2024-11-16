@@ -1,7 +1,9 @@
 using Domain.Common;
+using Domain.Common.Errors;
 using Domain.Todos;
 using Infrastructure.Data;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using XResults;
 
 namespace Application.Todos.Commands.AddTodo;
@@ -28,7 +30,15 @@ public class AddTodoCommandHandler : IRequestHandler<AddTodoCommand, SuccessOr<E
             return result.Error;
 
         _context.Todos.Add(result.Value);
-        await _context.SaveChangesAsync(cancellationToken);
+
+        try
+        {
+            await _context.SaveChangesAsync(cancellationToken);
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            return ErrorsConcurrency.Occured;
+        }
 
         return Result.Ok();
     }

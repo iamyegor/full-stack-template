@@ -8,14 +8,21 @@ import useAddPagedTodo from "@/features/todos/hooks/useAddPagedTodo";
 import { Loader2 } from "lucide-react";
 import AddTodoForm from "@/features/todos/components/AddTodoForm";
 import { UseMutationResult } from "@tanstack/react-query";
+import useErrorAlertMessage from "@/features/todos/hooks/useErrorAlertMessage";
 
 export default function InfiniteTodoListPage() {
+    const { errorMessage, setErrorMessage } = useErrorAlertMessage();
     const { todos, todosEndRef, hasNextPage, isLoading, isError } = usePagedTodos();
-    const changeCompletionStatus = usePagedTodoChangeCompletion();
-    const addTodoMutation = useAddPagedTodo();
+    const changeCompletionStatus = usePagedTodoChangeCompletion({ setErrorMessage });
+    const addTodoMutation = useAddPagedTodo({ setErrorMessage });
 
     return (
-        <TodoListLayout isLoading={isLoading} isError={isError}>
+        <TodoListLayout
+            isLoading={isLoading}
+            isError={isError}
+            errorMessage={errorMessage}
+            onErrorAlertClose={() => setErrorMessage(null)}
+        >
             <AddTodoForm addTodoMutation={addTodoMutation as UseMutationResult} />
             <div className="flex flex-col w-full items-center">
                 <TodoList

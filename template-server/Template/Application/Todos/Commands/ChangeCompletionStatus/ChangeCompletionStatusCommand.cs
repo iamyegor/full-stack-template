@@ -1,4 +1,5 @@
 ﻿using Domain.Common;
+using Domain.Common.Errors;
 using Domain.Todos;
 using Domain.Todos.Errors;
 using Infrastructure.Data;
@@ -30,7 +31,15 @@ public class ChangeCompletionStatusCommandHandler
             return ErrorsTodo.NotFound;
 
         todo.ChangeCompletionStatus(command.Completed);
-        await _context.SaveChangesAsync(ct);
+
+        try
+        {
+            await _context.SaveChangesAsync(ct);
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            return ErrorsConcurrency.Occured;
+        }
 
         return Result.Ok();
     }

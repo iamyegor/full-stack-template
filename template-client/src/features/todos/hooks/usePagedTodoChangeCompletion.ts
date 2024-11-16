@@ -1,10 +1,18 @@
+import commonErrors from "@/data/commonErrors";
 import sendChangeCompletionStatusRequest from "@/features/todos/api/sendMarkTodoCompletedRequest";
 import PagedTodoResponse from "@/features/todos/types/PagedTodoResponse";
+import ServerErrorResponse from "@/types/errors/ServerErrorResponse";
 import { InfiniteData, useMutation, useQueryClient } from "@tanstack/react-query";
+import { AxiosError } from "axios";
+import getCommonError from "@/utils/errors/getCommonError";
 
 const queryKey = ["todos-paged"];
 
-export default function usePagedTodoChangeCompletion() {
+export default function usePagedTodoChangeCompletion({
+    setErrorMessage,
+}: {
+    setErrorMessage: (message: string | null) => void;
+}) {
     const queryClient = useQueryClient();
 
     const markTodoCompletedMutation = useMutation({
@@ -31,8 +39,9 @@ export default function usePagedTodoChangeCompletion() {
 
             return { previousData };
         },
-        onError: (_, __, context) => {
-            if (context?.previousData) queryClient.setQueryData(queryKey, context?.previousData);
+        onError: (error, __, context) => {
+            queryClient.setQueryData(queryKey, context?.previousData);
+            setErrorMessage(getCommonError(error as AxiosError<ServerErrorResponse>));
         },
         onSettled: () => queryClient.invalidateQueries({ queryKey }),
     });
