@@ -12,8 +12,8 @@ public class Todo : Entity<Guid>
     public DateTime CreatedAt { get; private set; }
     public NpgsqlTsVector SearchVector { get; private set; }
 
-    protected Todo(Guid? id = null)
-        : base(id ?? Guid.NewGuid()) { }
+    protected Todo()
+        : base(new Guid()) { }
 
     private Todo(Guid id, string title, bool completed, DateTime createdAt)
         : base(id)
