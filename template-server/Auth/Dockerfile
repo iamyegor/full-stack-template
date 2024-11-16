@@ -7,7 +7,7 @@ COPY ["Auth/Application/Application.csproj", "Application/"]
 COPY ["Auth/Domain/Domain.csproj", "Domain/"]
 COPY ["Auth/Infrastructure/Infrastructure.csproj", "Infrastructure/"]
 COPY ["SharedKernel/SharedKernel.csproj", "SharedKernel/"]
-RUN dotnet restore Api/Api.csproj -v d
+RUN dotnet restore Api/Api.csproj --source https://api.nuget.org/v3/index.json --source https://www.myget.org/F/npgsql-vnext/api/v3/index.json -v d
 
 COPY Auth/ .
 COPY SharedKernel/ SharedKernel/
