@@ -2,7 +2,7 @@
 
 source ./dependencies/text_replacer.sh
 
-install_sentry() {
+install_sentry_on_backend() {
     local dsn=$1
     local kebab_name=$2
     local pascal_name=$3
@@ -16,4 +16,15 @@ install_sentry() {
     replace_in_file "$auth_settings" '"Dsn": "FILL_ME_IN",' "\"Dsn\": \"$dsn\","
 
     echo "Sentry installed successfully!"
+}
+
+install_posthog() {
+    local posthog_key=$1
+    local kebab_name=$2
+
+    echo "Installing Posthog..."
+
+    replace_in_file "$kebab_name-client/.env.local" "NEXT_PUBLIC_POSTHOG_KEY=FILL_ME_IN" "NEXT_PUBLIC_POSTHOG_KEY=$posthog_key"
+
+    echo "Posthog installed successfully!"
 }

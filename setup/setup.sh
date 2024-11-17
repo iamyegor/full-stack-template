@@ -16,6 +16,7 @@ git init
 read -p "Enter project name in PascalCase (e.g., NetIQ): " pascal_name
 read -p "Enter project name in kebab-case (e.g., netiq): " kebab_name
 read -p "Enter Sentry DSN: " sentry_dsn
+read -p "Enter Posthog key: " posthog_key
 
 validate_pascal_case "$pascal_name"
 validate_kebab_case "$kebab_name"
@@ -28,7 +29,8 @@ update_auth_project_settings "$kebab_name" "$pascal_name"
 update_dockerfiles "$kebab_name" "$pascal_name"
 rename_sln "$kebab_name" "$pascal_name"
 
-install_sentry "$sentry_dsn" "$kebab_name" "$pascal_name"
+install_sentry_on_backend "$sentry_dsn" "$kebab_name" "$pascal_name"
+install_posthog "$posthog_key" "$kebab_name"
 
 echo "Project setup complete!"
 echo "Project ${pascal_name} (${kebab_name}) has been configured successfully."
