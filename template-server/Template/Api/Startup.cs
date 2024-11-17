@@ -2,6 +2,7 @@ using Api.DiExtensions;
 using Api.Utils;
 using Application;
 using Infrastructure;
+using SharedKernel.Utils;
 
 namespace Api;
 
@@ -11,7 +12,9 @@ public static class Startup
 
     public static WebApplication ConfigureServices(this WebApplicationBuilder builder)
     {
-        builder.WebHost.UseSentry();
+        if (AppEnv.IsProduction)
+            builder.WebHost.UseSentry();
+
         builder.Host.AddSerilog();
 
         builder
