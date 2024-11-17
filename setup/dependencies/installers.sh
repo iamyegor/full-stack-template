@@ -1,3 +1,5 @@
+source text_replacer.sh
+
 install_sentry() {
     local dsn=$1
     local kebab_name=$2
