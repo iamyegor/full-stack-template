@@ -69,7 +69,6 @@ ScaffoldingReadMe.txt
 *.temp
 *.tlog
 *.vscode
-.env
 
 # React
 # Dependencies
@@ -82,9 +81,6 @@ ScaffoldingReadMe.txt
 
 # Environment files
 **/.asp-env
-.env
-.env.local
-.env.*.local
 
 # Editor directories and files
 .idea
