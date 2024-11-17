@@ -2,6 +2,13 @@
 
 source text_replacer.sh
 
+rename_sln() {
+    local kebab_name=$1
+    local pascal_name=$2
+
+    mv "${kebab_name}-server/${pascal_name}/Template.sln" "${kebab_name}-server/${pascal_name}/${pascal_name}.sln"
+}
+
 update_cicd() {
     update_cicd_config "$1" "$2"
     update_migration_paths "$1" "$2"
@@ -59,7 +66,7 @@ update_main_project_settings() {
     # Update appsettings.Development.json
     local main_dev_settings="${kebab_name}-server/${pascal_name}/Api/appsettings.Development.json"
     echo "Updating ${main_dev_settings}..."
-    replace_in_file "$main_dev_settings" "template_db" "${kebab_name}_db"
+    replace_in_file "$main_dev_settings" "template_db" "${kebab_name//-/_}_db"
 
     # Update DependencyInjection.cs
     local main_di="${kebab_name}-server/${pascal_name}/Api/DependencyInjection.cs"
@@ -80,7 +87,7 @@ update_auth_project_settings() {
     # Update Auth/Api/appsettings.Development.json
     local auth_dev_settings="${kebab_name}-server/Auth/Api/appsettings.Development.json"
     echo "Updating ${auth_dev_settings}..."
-    replace_in_file "$auth_dev_settings" "template_auth_db" "${kebab_name}_auth_db"
+    replace_in_file "$auth_dev_settings" "template_auth_db" "${kebab_name//-/_}_auth_db"
 
     # Update Auth DependencyInjection.cs
     local auth_di="${kebab_name}-server/Auth/Api/DependencyInjection.cs"

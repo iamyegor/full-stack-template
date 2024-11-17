@@ -24,6 +24,7 @@ update_docker_compose "$kebab_name"
 update_main_project_settings "$kebab_name" "$pascal_name"
 update_auth_project_settings "$kebab_name" "$pascal_name"
 update_dockerfiles "$kebab_name" "$pascal_name"
+rename_sln "$kebab_name" "$pascal_name"
 
 echo "Project setup complete!"
 echo "Project ${pascal_name} (${kebab_name}) has been configured successfully."
