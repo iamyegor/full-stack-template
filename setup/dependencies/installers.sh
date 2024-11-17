@@ -1,3 +1,5 @@
+#!/bin/bash
+
 source text_replacer.sh
 
 install_sentry() {
