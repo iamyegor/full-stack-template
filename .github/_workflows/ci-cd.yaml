@@ -16,13 +16,11 @@ env:
 
   AUTH_MIGRATIONS_DIR: FILL_ME_IN # netiq-server/Auth/app/Infrastructure/Data/Migrations/*
   AUTH_MIGRATOR_MIGRATIONS_DIR: FILL_ME_IN # netiq-server/migrations/auth/Migrator/Migrations
-  AUTH_MIGRATION_CHANGER: FILL_ME_IN # netiq-server/migrations/auth/MigrationChanger
   AUTH_APP_DIR: FILL_ME_IN # netiq-server/Auth
   AUTH_MIGRATOR_DIR: FILL_ME_IN # netiq-server/migrations/auth
 
   SERVER_MIGRATIONS_DIR: FILL_ME_IN #netiq-server/Netiq/app/Infrastructure/Data/Migrations/*
   SERVER_MIGRATOR_MIGRATIONS_DIR: FILL_ME_IN #netiq-server/migrations/netiq/Migrator/Migrations
-  SERVER_MIGRATION_CHANGER: FILL_ME_IN #netiq-server/migrations/netiq/MigrationChanger
   SERVER_APP_DIR: FILL_ME_IN #netiq-server/Netiq
   SERVER_MIGRATOR_DIR: FILL_ME_IN #netiq-server/migrations/netiq
 
@@ -72,21 +70,6 @@ jobs:
           username: ${{ env.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Set up .NET Core
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: "8.0.x"
-
-      - name: Prepare Auth migrations
-        run: |
-          mkdir -p ${{ env.AUTH_MIGRATOR_MIGRATIONS_DIR }}
-          cp -r ${{ env.AUTH_MIGRATIONS_DIR }} ${{ env.AUTH_MIGRATOR_MIGRATIONS_DIR }}
-
-      - name: Run MigrationChanger for Auth
-        run: |
-          dotnet build ${{ env.AUTH_MIGRATION_CHANGER }}
-          dotnet run --project ${{ env.AUTH_MIGRATION_CHANGER }}
-
       - name: Build and push Auth app
         uses: docker/build-push-action@v2
         with:
@@ -98,7 +81,8 @@ jobs:
       - name: Build and push Auth migrator
         uses: docker/build-push-action@v2
         with:
-          context: ${{ env.AUTH_MIGRATOR_DIR }}
+          context: ${{ env.SERVER_DIR }}
+          file: ${{ env.AUTH_MIGRATOR_DIR }}/Dockerfile
           push: true
           tags: ${{ env.DOCKER_USERNAME }}/${{ env.DOCKER_REPO }}:auth-migrator
 
@@ -117,21 +101,6 @@ jobs:
           username: ${{ env.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Set up .NET Core
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: "8.0.x"
-
-      - name: Prepare Server migrations
-        run: |
-          mkdir -p ${{ env.SERVER_MIGRATOR_MIGRATIONS_DIR }}
-          cp -r ${{ env.SERVER_MIGRATIONS_DIR }} ${{ env.SERVER_MIGRATOR_MIGRATIONS_DIR }}
-
-      - name: Run MigrationChanger for Server
-        run: |
-          dotnet build ${{ env.SERVER_MIGRATION_CHANGER }}
-          dotnet run --project ${{ env.SERVER_MIGRATION_CHANGER }}
-
       - name: Build and push Server app
         uses: docker/build-push-action@v2
         with:
@@ -143,7 +112,8 @@ jobs:
       - name: Build and push Server migrator
         uses: docker/build-push-action@v2
         with:
-          context: ${{ env.SERVER_MIGRATOR_DIR }}
+          context: ${{ env.SERVER_DIR }}
+          file: ${{ env.SERVER_MIGRATOR_DIR }}/Dockerfile
           push: true
           tags: ${{ env.DOCKER_USERNAME }}/${{ env.DOCKER_REPO }}:netiq-migrator
 
