@@ -24,7 +24,14 @@ install_posthog() {
 
     echo "Installing Posthog..."
 
-    replace_in_file "$kebab_name-client/.env.local" "NEXT_PUBLIC_POSTHOG_KEY=FILL_ME_IN" "NEXT_PUBLIC_POSTHOG_KEY=$posthog_key"
+    local env_file="$kebab_name-client/.env.local"
+
+    if [ ! -f "$env_file" ]; then
+        echo "NEXT_PUBLIC_POSTHOG_KEY=FILL_ME_IN" > "$env_file"
+        echo "NEXT_PUBLIC_POSTHOG_HOST=https://eu.i.posthog.com" >> "$env_file"
+    fi
+
+    replace_in_file "$env_file" "NEXT_PUBLIC_POSTHOG_KEY=FILL_ME_IN" "NEXT_PUBLIC_POSTHOG_KEY=$posthog_key"
 
     echo "Posthog installed successfully!"
 }

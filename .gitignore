@@ -78,6 +78,7 @@ ScaffoldingReadMe.txt
 # Production build files
 /dist
 /build
+tsconfig.tsbuildinfo
 
 # Environment files
 **/.asp-env
