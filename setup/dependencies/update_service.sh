@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source text_replacer.sh
+source ./dependencies/text_replacer.sh
 
 rename_sln() {
     local kebab_name=$1
