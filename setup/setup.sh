@@ -2,6 +2,7 @@
 
 source ./dependencies/update_service.sh
 source ./dependencies/validators.sh
+source ./dependencies/installers.sh
 
 cd ..
 
