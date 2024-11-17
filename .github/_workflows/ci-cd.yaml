@@ -9,7 +9,7 @@ on:
 env:
   DOCKER_USERNAME: jasonstathamdev
   VM_IP: FILL_ME_IN #192.121.1.10
-  HELM_COMMAND: helm upgrade FILL_ME_IN FILL_ME_IN-k8s --values FILL_ME_IN-k8s/values.yaml #netiq
+  HELM_COMMAND: helm upgrade FILL_ME_IN ./FILL_ME_IN-k8s --values FILL_ME_IN-k8s/values.yaml #netiq
   DOCKER_REPO: FILL_ME_IN #netiq
   CLIENT_DIR: FILL_ME_IN # ./netiq-client
   SERVER_DIR: FILL_ME_IN # ./netiq-server
@@ -53,7 +53,7 @@ jobs:
         with:
           context: ${{ env.CLIENT_DIR }}
           push: true
-          tags: ${{ env.DOCKER_USERNAME }}/${{ env.DOCKER_REPO }}:client
+          tags: ${{ env.DOCKER_USERNAME }}/${{ env.DOCKER_REPO }}:frontend
 
   build-auth:
     needs: setup
@@ -76,7 +76,7 @@ jobs:
           context: ${{ env.SERVER_DIR }}
           file: ${{ env.AUTH_APP_DIR }}/Dockerfile
           push: true
-          tags: ${{ env.DOCKER_USERNAME }}/${{ env.DOCKER_REPO }}:auth-app
+          tags: ${{ env.DOCKER_USERNAME }}/${{ env.DOCKER_REPO }}:auth-backend
 
       - name: Build and push Auth migrator
         uses: docker/build-push-action@v2
@@ -84,7 +84,7 @@ jobs:
           context: ${{ env.SERVER_DIR }}
           file: ${{ env.AUTH_MIGRATOR_DIR }}/Dockerfile
           push: true
-          tags: ${{ env.DOCKER_USERNAME }}/${{ env.DOCKER_REPO }}:auth-migrator
+          tags: ${{ env.DOCKER_USERNAME }}/${{ env.DOCKER_REPO }}:auth-backend
 
   build-server:
     needs: setup
@@ -107,7 +107,7 @@ jobs:
           context: ${{ env.SERVER_DIR }}
           file: ${{ env.SERVER_APP_DIR }}/Dockerfile
           push: true
-          tags: ${{ env.DOCKER_USERNAME }}/${{ env.DOCKER_REPO }}:netiq-app
+          tags: ${{ env.DOCKER_USERNAME }}/${{ env.DOCKER_REPO }}:app-backend
 
       - name: Build and push Server migrator
         uses: docker/build-push-action@v2
@@ -115,7 +115,7 @@ jobs:
           context: ${{ env.SERVER_DIR }}
           file: ${{ env.SERVER_MIGRATOR_DIR }}/Dockerfile
           push: true
-          tags: ${{ env.DOCKER_USERNAME }}/${{ env.DOCKER_REPO }}:netiq-migrator
+          tags: ${{ env.DOCKER_USERNAME }}/${{ env.DOCKER_REPO }}:app-migrator
 
   deploy:
     needs: [build-client, build-auth, build-server]

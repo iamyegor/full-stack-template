@@ -36,13 +36,13 @@ update_migration_paths() {
     replace_in_file "$cicd_file" "AUTH_MIGRATIONS_DIR: FILL_ME_IN" "AUTH_MIGRATIONS_DIR: ${kebab_name}-server/Auth/app/Infrastructure/Data/Migrations/*"
     replace_in_file "$cicd_file" "AUTH_MIGRATOR_MIGRATIONS_DIR: FILL_ME_IN" "AUTH_MIGRATOR_MIGRATIONS_DIR: ${kebab_name}-server/migrations/auth/Migrator/Migrations"
     replace_in_file "$cicd_file" "AUTH_APP_DIR: FILL_ME_IN" "AUTH_APP_DIR: ${kebab_name}-server/Auth"
-    replace_in_file "$cicd_file" "AUTH_MIGRATOR_DIR: FILL_ME_IN" "AUTH_MIGRATOR_DIR: ${kebab_name}-server/migrations/auth"
+    replace_in_file "$cicd_file" "AUTH_MIGRATOR_DIR: FILL_ME_IN" "AUTH_MIGRATOR_DIR: ${kebab_name}-server/migrators/auth"
 
     # Server paths
     replace_in_file "$cicd_file" "SERVER_MIGRATIONS_DIR: FILL_ME_IN" "SERVER_MIGRATIONS_DIR: ${kebab_name}-server/${pascal_name}/app/Infrastructure/Data/Migrations/*"
     replace_in_file "$cicd_file" "SERVER_MIGRATOR_MIGRATIONS_DIR: FILL_ME_IN" "SERVER_MIGRATOR_MIGRATIONS_DIR: ${kebab_name}-server/migrations/${kebab_name}/Migrator/Migrations"
     replace_in_file "$cicd_file" "SERVER_APP_DIR: FILL_ME_IN" "SERVER_APP_DIR: ${kebab_name}-server/${pascal_name}"
-    replace_in_file "$cicd_file" "SERVER_MIGRATOR_DIR: FILL_ME_IN" "SERVER_MIGRATOR_DIR: ${kebab_name}-server/migrations/${kebab_name}"
+    replace_in_file "$cicd_file" "SERVER_MIGRATOR_DIR: FILL_ME_IN" "SERVER_MIGRATOR_DIR: ${kebab_name}-server/migrators/${kebab_name}"
 }
 
 update_docker_compose() {
