@@ -3,17 +3,18 @@
 source ./dependencies/text_replacer.sh
 
 install_sentry_on_backend() {
-    local dsn=$1
-    local kebab_name=$2
-    local pascal_name=$3
+    local main_dsn=$1
+    local auth_dsn=$2
+    local kebab_name=$3
+    local pascal_name=$4
 
     echo "Installing Sentry..."
 
     local main_settings="${kebab_name}-server/${pascal_name}/Api/appsettings.json"
-    replace_in_file "$main_settings" '"Dsn": "FILL_ME_IN",' "\"Dsn\": \"$dsn\","
+    replace_in_file "$main_settings" '"Dsn": "FILL_ME_IN",' "\"Dsn\": \"$main_dsn\","
 
     local auth_settings="${kebab_name}-server/Auth/Api/appsettings.json"
-    replace_in_file "$auth_settings" '"Dsn": "FILL_ME_IN",' "\"Dsn\": \"$dsn\","
+    replace_in_file "$auth_settings" '"Dsn": "FILL_ME_IN",' "\"Dsn\": \"$auth_dsn\","
 
     echo "Sentry installed successfully!"
 }
