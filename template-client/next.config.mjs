@@ -3,11 +3,18 @@ import svgsConfig from "./svgs.config.js";
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     env: {
-        api: process.env.NODE_ENV === "development" ? "http://localhost:5026" : process.env.API,
+        api:
+            process.env.NODE_ENV === "development"
+                ? "http://localhost:5026"
+                : "FILL_ME_IN",
         authApi:
-            process.env.NODE_ENV === "development" ? "http://localhost:5029" : process.env.AUTH_API,
+            process.env.NODE_ENV === "development"
+                ? "http://localhost:5029"
+                : "FILL_ME_IN",
         cms:
-            process.env.NODE_ENV === "development" ? "http://localhost:8055" : process.env.DIRECTUS,
+            process.env.NODE_ENV === "development"
+                ? "http://localhost:8055"
+                : "FILL_ME_IN",
     },
     images: {
         domains: ["localhost"],
