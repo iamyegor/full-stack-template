@@ -28,9 +28,6 @@ const nextConfig = {
                 },
             },
         },
-        dns: {
-            nameservers: ["8.8.8.8", "8.8.4.4"],
-        },
     },
     reactStrictMode: false,
     async rewrites() {
