@@ -5,9 +5,7 @@ const nextConfig = {
     env: {
         api: process.env.NODE_ENV === "development" ? "http://localhost:5026" : process.env.API,
         authApi:
-            process.env.NODE_ENV === "development"
-                ? "http://localhost:5029"
-                : process.env.AUTH_API,
+            process.env.NODE_ENV === "development" ? "http://localhost:5029" : process.env.AUTH_API,
         cms:
             process.env.NODE_ENV === "development" ? "http://localhost:8055" : process.env.DIRECTUS,
     },
@@ -22,6 +20,9 @@ const nextConfig = {
                     as: "*.js",
                 },
             },
+        },
+        dns: {
+            nameservers: ["8.8.8.8", "8.8.4.4"],
         },
     },
     reactStrictMode: false,
