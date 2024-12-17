@@ -99,3 +99,6 @@ yarn-error.log*
 
 **/.next
 **/images-server/images
+
+# Directus
+directus/**
